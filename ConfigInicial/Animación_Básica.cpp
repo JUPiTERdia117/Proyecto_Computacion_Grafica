@@ -26,6 +26,7 @@
 // Other includes
 #include "Shader.h"
 #include "Camera.h"
+#include "CameraVR.h"
 #include "Model.h"
 
 // Function prototypes
@@ -35,11 +36,17 @@ void DoMovement();
 //void Animation();
 
 // Window dimensions
-const GLuint WIDTH = 1920, HEIGHT = 1080;
+const GLuint WIDTH = 2160, HEIGHT = 1440;
 int SCREEN_WIDTH, SCREEN_HEIGHT;
 
 // Camera
 Camera  camera(glm::vec3(0.0f, 0.0f, 3.0f));
+CameraVR cameraVR(glm::vec3(0.0f, 0.0f, 3.0f));
+
+
+
+// Camera options
+bool activeCamera = true;
 GLfloat lastX = WIDTH / 2.0;
 GLfloat lastY = HEIGHT / 2.0;
 bool keys[1024];
@@ -273,7 +280,14 @@ int main()
 
 		// Create camera transformations
 		glm::mat4 view;
-		view = camera.GetViewMatrix();
+
+		if (activeCamera) {
+			view = camera.GetViewMatrix();
+		}
+		else {
+			view = cameraVR.GetViewMatrix();
+		}
+		
 
 		// Get the uniform locations
 		GLint modelLoc = glGetUniformLocation(lightingShader.Program, "model");
@@ -290,8 +304,12 @@ int main()
 	
 		
 		//Carga de modelo 
-        view = camera.GetViewMatrix();	
+		
+        //view = camera.GetViewMatrix();	
+
+
 		model = glm::mat4(1);
+		model = glm::scale(model, glm::vec3(5.0f,1.0f,5.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Piso.Draw(lightingShader);
 
@@ -378,27 +396,47 @@ void DoMovement()
 	// Camera controls
 	if (keys[GLFW_KEY_W] || keys[GLFW_KEY_UP])
 	{
-		camera.ProcessKeyboard(FORWARD, deltaTime);
+		if (activeCamera) {
+			camera.ProcessKeyboard(FORWARD, deltaTime);
+		}
+		else {
+			cameraVR.ProcessKeyboard(FORWARDVR, deltaTime);
+		}
 
 	}
 
 	if (keys[GLFW_KEY_S] || keys[GLFW_KEY_DOWN])
 	{
-		camera.ProcessKeyboard(BACKWARD, deltaTime);
+		if (activeCamera) {
+			camera.ProcessKeyboard(BACKWARD, deltaTime);
+		}
+		else {
+			cameraVR.ProcessKeyboard(BACKWARDVR, deltaTime);
+		}
 
 
 	}
 
 	if (keys[GLFW_KEY_A] || keys[GLFW_KEY_LEFT])
 	{
-		camera.ProcessKeyboard(LEFT, deltaTime);
+		if (activeCamera) {
+			camera.ProcessKeyboard(LEFT, deltaTime);
+		}
+		else {
+			cameraVR.ProcessKeyboard(LEFTVR, deltaTime);
+		}
 
-
+		
 	}
 
 	if (keys[GLFW_KEY_D] || keys[GLFW_KEY_RIGHT])
 	{
-		camera.ProcessKeyboard(RIGHT, deltaTime);
+		if (activeCamera) {
+			camera.ProcessKeyboard(RIGHT, deltaTime);
+		}
+		else {
+			cameraVR.ProcessKeyboard(RIGHTVR, deltaTime);
+		}
 
 
 	}
@@ -471,6 +509,12 @@ void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode
 
 		
 	}
+
+	if (keys[GLFW_KEY_C])
+	{
+		// Alternar entre las cámaras
+		activeCamera = !activeCamera;
+	}
 }
 //void Animation() {
 //	if (AnimBall)
@@ -500,6 +544,11 @@ void MouseCallback(GLFWwindow *window, double xPos, double yPos)
 
 	lastX = xPos;
 	lastY = yPos;
-
-	camera.ProcessMouseMovement(xOffset, yOffset);
+	if (activeCamera) {
+		camera.ProcessMouseMovement(xOffset, yOffset);
+	}
+	else {
+		cameraVR.ProcessMouseMovement(xOffset, yOffset);
+	}
+	
 }
