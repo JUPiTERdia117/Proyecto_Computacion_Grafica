@@ -1,6 +1,9 @@
-//Practica#10 (AnimBasica) Monroy Salazar
-//Fecha de entrega 08 de Abril de 2025
-//315118894
+/*
+Proyecto     315118894 y 317019450
+Fecha de entrega: 05 de mayo de 2025 
+
+*/
+//
 
 #include <iostream>
 #include <cmath>
