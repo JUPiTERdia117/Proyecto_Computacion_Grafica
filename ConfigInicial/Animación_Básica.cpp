@@ -439,17 +439,7 @@ int main()
 		glBindVertexArray(0);
 
 
-		//Pizarron
-		glm::mat4 modelBoard(1);
-		modelBoard = glm::translate(modelBoard, glm::vec3(0.0f, 0.0f, -3.0f));
-		modelBoard = glm::scale(modelBoard, glm::vec3(0.01f, 0.01f, 0.01f));
-		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelBoard));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
-		board.Draw(lightingShader);
-		//glDisable(GL_BLEND);  //Desactiva el canal alfa 
-		glBindVertexArray(0);
+		
 
 
 
