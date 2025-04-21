@@ -181,6 +181,14 @@ int main()
 	Model tablec((char*)"Models/Table/Chair_and_Table_School.obj");
 	Model room((char*)"Models/Room/Room.obj");
 	Model board((char*)"Models/Piza/pizar.obj");
+	Model dron((char*)"Models/Test/DronT2.obj");
+	Model room2((char*)"Models/Test/test12.obj");
+	Model hand((char*)"Models/Test/handRob.obj");
+	Model handF1((char*)"Models/Test/handRobF1.obj");
+	Model handF2((char*)"Models/Test/handRobF2.obj");
+	Model handF3((char*)"Models/Test/handRobF3.obj");
+	Model handF4((char*)"Models/Test/handRobF4.obj");
+	Model handF5((char*)"Models/Test/handRobF5.obj");
 
 
 
@@ -349,94 +357,186 @@ int main()
 		glDisable(GL_BLEND);  //Desactiva el canal alfa 
 		glBindVertexArray(0);
 
-		//Cuarto
+		////Cuarto
+		//glm::mat4 modelR(1);
+		//modelR = glm::translate(modelR, glm::vec3(0.0f, -0.45f, 0.0f));
+		////glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelR));
+		//glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+		//room.Draw(lightingShader);
+		////glDisable(GL_BLEND);  //Desactiva el canal alfa 
+		//glBindVertexArray(0);
+
+		//Cascara lab
 		glm::mat4 modelR(1);
 		modelR = glm::translate(modelR, glm::vec3(0.0f, -0.45f, 0.0f));
 		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelR));
 		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
-		room.Draw(lightingShader);
+		room2.Draw(lightingShader);
 		//glDisable(GL_BLEND);  //Desactiva el canal alfa 
 		glBindVertexArray(0);
 
-		//Silla
-		glm::mat4 modelChair(1);
-		modelChair = glm::translate(modelChair, glm::vec3(0.0f, -0.5f, 0.0f));
-		modelChair = glm::scale(modelChair, glm::vec3(0.4f, 0.4f, 0.4f));
-		modelChair = glm::rotate(modelChair, -55.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelChair));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
-		chair.Draw(lightingShader);
-		//glDisable(GL_BLEND);  //Desactiva el canal alfa 
-		glBindVertexArray(0);
+		////Dron
+		//glm::mat4 modelR(1);
+		//modelR = glm::translate(modelR, glm::vec3(0.0f, -0.45f, 0.0f));
+		////glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelR));
+		//glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+		//dron.Draw(lightingShader);
+		////glDisable(GL_BLEND);  //Desactiva el canal alfa 
+		//glBindVertexArray(0);
 
-		//Silla2
-		glm::mat4 modelChair2(1);
-		modelChair2 = glm::translate(modelChair2, glm::vec3(-1.0f, -0.5f, 0.0f));
-		modelChair2 = glm::scale(modelChair2, glm::vec3(0.4f, 0.4f, 0.4f));
-		modelChair2 = glm::rotate(modelChair2, -55.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelChair2));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
-		chair.Draw(lightingShader);
-		//glDisable(GL_BLEND);  //Desactiva el canal alfa 
-		glBindVertexArray(0);
 
-		//Silla3
-		glm::mat4 modelChair3(1);
-		modelChair3 = glm::translate(modelChair3, glm::vec3(1.0f, -0.5f, 0.0f));
-		modelChair3 = glm::scale(modelChair3, glm::vec3(0.4f, 0.4f, 0.4f));
-		modelChair3 = glm::rotate(modelChair3, -55.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelChair3));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
-		chair.Draw(lightingShader);
-		//glDisable(GL_BLEND);  //Desactiva el canal alfa 
-		glBindVertexArray(0);
 
-		//Silla4
-		glm::mat4 modelChair4(1);
-		modelChair4 = glm::translate(modelChair4, glm::vec3(0.0f, -0.5f, 1.0f));
-		modelChair4 = glm::scale(modelChair4, glm::vec3(0.4f, 0.4f, 0.4f));
-		modelChair4 = glm::rotate(modelChair4, -55.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelChair4));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
-		chair.Draw(lightingShader);
-		//glDisable(GL_BLEND);  //Desactiva el canal alfa 
-		glBindVertexArray(0);
 
-		//Silla5
-		glm::mat4 modelChair5(1);
-		modelChair5 = glm::translate(modelChair5, glm::vec3(-1.0f, -0.5f, 1.0f));
-		modelChair5 = glm::scale(modelChair5, glm::vec3(0.4f, 0.4f, 0.4f));
-		modelChair5 = glm::rotate(modelChair5, -55.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelChair5));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
-		chair.Draw(lightingShader);
-		//glDisable(GL_BLEND);  //Desactiva el canal alfa 
-		glBindVertexArray(0);
+		////Partes mano
+		////Modelo muy grande, sale abajo del escenario
+		//glm::mat4 modelH(1);
+		////modelR = glm::scale(modelR, glm::vec3(50.0f, 50.0f, 50.0f));
+		////glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH));
+		//glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+		//hand.Draw(lightingShader);
+		////glDisable(GL_BLEND);  //Desactiva el canal alfa 
+		//glBindVertexArray(0);
 
-		//Silla6
-		glm::mat4 modelChair6(1);
-		modelChair6 = glm::translate(modelChair6, glm::vec3(1.0f, -0.5f, 1.0f));
-		modelChair6 = glm::scale(modelChair6, glm::vec3(0.4f, 0.4f, 0.4f));
-		modelChair6 = glm::rotate(modelChair6, -55.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelChair6));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
-		chair.Draw(lightingShader);
-		//glDisable(GL_BLEND);  //Desactiva el canal alfa 
-		glBindVertexArray(0);
+		//
+		//glm::mat4 modelHF1(1);
+		////modelR = glm::scale(modelR, glm::vec3(50.0f, 50.0f, 50.0f));
+		////glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelHF1));
+		//glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+		//handF1.Draw(lightingShader);
+		////glDisable(GL_BLEND);  //Desactiva el canal alfa 
+		//glBindVertexArray(0);
+
+		//
+		//glm::mat4 modelHF2(1);
+		////modelR = glm::scale(modelR, glm::vec3(50.0f, 50.0f, 50.0f));
+		////glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelHF2));
+		//glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+		//handF2.Draw(lightingShader);
+		////glDisable(GL_BLEND);  //Desactiva el canal alfa 
+		//glBindVertexArray(0);
+
+		//
+		//glm::mat4 modelHF3(1);
+		////modelR = glm::scale(modelR, glm::vec3(50.0f, 50.0f, 50.0f));
+		////glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelHF3));
+		//glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+		//handF3.Draw(lightingShader);
+		////glDisable(GL_BLEND);  //Desactiva el canal alfa 
+		//glBindVertexArray(0);
+
+		//
+		//glm::mat4 modelHF4(1);
+		////modelR = glm::scale(modelR, glm::vec3(50.0f, 50.0f, 50.0f));
+		////glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelHF4));
+		//glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+		//handF4.Draw(lightingShader);
+		////glDisable(GL_BLEND);  //Desactiva el canal alfa 
+		//glBindVertexArray(0);
+
+		//
+		//glm::mat4 modelHF5(1);
+		////modelR = glm::scale(modelR, glm::vec3(50.0f, 50.0f, 50.0f));
+		////glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelHF5));
+		//glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+		//handF5.Draw(lightingShader);
+		////glDisable(GL_BLEND);  //Desactiva el canal alfa 
+		//glBindVertexArray(0);
+
+		////Silla
+		//glm::mat4 modelChair(1);
+		//modelChair = glm::translate(modelChair, glm::vec3(0.0f, -0.5f, 0.0f));
+		//modelChair = glm::scale(modelChair, glm::vec3(0.4f, 0.4f, 0.4f));
+		//modelChair = glm::rotate(modelChair, -55.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+		////glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelChair));
+		//glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+		//chair.Draw(lightingShader);
+		////glDisable(GL_BLEND);  //Desactiva el canal alfa 
+		//glBindVertexArray(0);
+
+		////Silla2
+		//glm::mat4 modelChair2(1);
+		//modelChair2 = glm::translate(modelChair2, glm::vec3(-1.0f, -0.5f, 0.0f));
+		//modelChair2 = glm::scale(modelChair2, glm::vec3(0.4f, 0.4f, 0.4f));
+		//modelChair2 = glm::rotate(modelChair2, -55.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+		////glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelChair2));
+		//glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+		//chair.Draw(lightingShader);
+		////glDisable(GL_BLEND);  //Desactiva el canal alfa 
+		//glBindVertexArray(0);
+
+		////Silla3
+		//glm::mat4 modelChair3(1);
+		//modelChair3 = glm::translate(modelChair3, glm::vec3(1.0f, -0.5f, 0.0f));
+		//modelChair3 = glm::scale(modelChair3, glm::vec3(0.4f, 0.4f, 0.4f));
+		//modelChair3 = glm::rotate(modelChair3, -55.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+		////glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelChair3));
+		//glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+		//chair.Draw(lightingShader);
+		////glDisable(GL_BLEND);  //Desactiva el canal alfa 
+		//glBindVertexArray(0);
+
+		////Silla4
+		//glm::mat4 modelChair4(1);
+		//modelChair4 = glm::translate(modelChair4, glm::vec3(0.0f, -0.5f, 1.0f));
+		//modelChair4 = glm::scale(modelChair4, glm::vec3(0.4f, 0.4f, 0.4f));
+		//modelChair4 = glm::rotate(modelChair4, -55.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+		////glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelChair4));
+		//glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+		//chair.Draw(lightingShader);
+		////glDisable(GL_BLEND);  //Desactiva el canal alfa 
+		//glBindVertexArray(0);
+
+		////Silla5
+		//glm::mat4 modelChair5(1);
+		//modelChair5 = glm::translate(modelChair5, glm::vec3(-1.0f, -0.5f, 1.0f));
+		//modelChair5 = glm::scale(modelChair5, glm::vec3(0.4f, 0.4f, 0.4f));
+		//modelChair5 = glm::rotate(modelChair5, -55.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+		////glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelChair5));
+		//glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+		//chair.Draw(lightingShader);
+		////glDisable(GL_BLEND);  //Desactiva el canal alfa 
+		//glBindVertexArray(0);
+
+		////Silla6
+		//glm::mat4 modelChair6(1);
+		//modelChair6 = glm::translate(modelChair6, glm::vec3(1.0f, -0.5f, 1.0f));
+		//modelChair6 = glm::scale(modelChair6, glm::vec3(0.4f, 0.4f, 0.4f));
+		//modelChair6 = glm::rotate(modelChair6, -55.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+		////glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelChair6));
+		//glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+		//chair.Draw(lightingShader);
+		////glDisable(GL_BLEND);  //Desactiva el canal alfa 
+		//glBindVertexArray(0);
 
 
 		
