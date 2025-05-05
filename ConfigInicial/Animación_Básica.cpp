@@ -138,7 +138,7 @@ int main()
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);*/
 
 	// Create a GLFWwindow object that we can use for GLFW's functions
-	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Animacion basica Monroy Salazar", nullptr, nullptr);
+	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Proyecto. Gabriel y Monroy", nullptr, nullptr);
 
 	if (nullptr == window)
 	{
@@ -177,13 +177,8 @@ int main()
 	Shader lampShader("Shader/lamp.vs", "Shader/lamp.frag");
 	
 	//models
-	Model Ball((char*)"Models/ball.obj");
-	Model Piso((char*)"Models/piso.obj");
-	Model Dog((char*)"Models/RedDog.obj");
-	Model chair((char*)"Models/Chair/kursi.obj");
-	Model tablec((char*)"Models/Table/Chair_and_Table_School.obj");
-	Model room((char*)"Models/Room/Room.obj");
-	Model board((char*)"Models/Piza/pizar.obj");
+	Model salon((char*)"Models/salon.obj");
+	Model bancas((char*)"Models/Bancas.obj");
 
 
 
@@ -225,19 +220,19 @@ int main()
 		// Clear the colorbuffer
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	   
+
 		// OpenGL options
 		glEnable(GL_DEPTH_TEST);
 
-		
-		
-		
-	
+
+
+
+
 
 		// Use cooresponding shader when setting uniforms/drawing objects
 		lightingShader.Use();
 
-        glUniform1i(glGetUniformLocation(lightingShader.Program, "diffuse"), 0);
+		glUniform1i(glGetUniformLocation(lightingShader.Program, "diffuse"), 0);
 		//glUniform1i(glGetUniformLocation(lightingShader.Program, "specular"),1);
 
 		GLint viewPosLoc = glGetUniformLocation(lightingShader.Program, "viewPos");
@@ -246,27 +241,27 @@ int main()
 
 		// Directional light
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.direction"), -0.2f, -1.0f, -0.3f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.ambient"),0.6f,0.6f,0.6f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.ambient"), 0.6f, 0.6f, 0.6f);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.diffuse"), 0.6f, 0.6f, 0.6f);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.specular"),0.3f, 0.3f, 0.3f);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "dirLight.specular"), 0.3f, 0.3f, 0.3f);
 
 
 		// Point light 1
-	    glm::vec3 lightColor;
-		lightColor.x= abs(sin(glfwGetTime() *Light1.x));
-		lightColor.y= abs(sin(glfwGetTime() *Light1.y));
-		lightColor.z= sin(glfwGetTime() *Light1.z);
+		glm::vec3 lightColor;
+		lightColor.x = abs(sin(glfwGetTime() * Light1.x));
+		lightColor.y = abs(sin(glfwGetTime() * Light1.y));
+		lightColor.z = sin(glfwGetTime() * Light1.z);
 
-		
 
-		
+
+
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].position"), pointLightPositions[0].x, pointLightPositions[0].y, pointLightPositions[0].z);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].ambient"), lightColor.x,lightColor.y, lightColor.z);
-		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].diffuse"), lightColor.x,lightColor.y,lightColor.z);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].ambient"), lightColor.x, lightColor.y, lightColor.z);
+		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].diffuse"), lightColor.x, lightColor.y, lightColor.z);
 		glUniform3f(glGetUniformLocation(lightingShader.Program, "pointLights[0].specular"), 1.0f, 0.2f, 0.2f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[0].constant"), 1.0f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[0].linear"), 0.045f);
-		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[0].quadratic"),0.075f);
+		glUniform1f(glGetUniformLocation(lightingShader.Program, "pointLights[0].quadratic"), 0.075f);
 
 
 		// SpotLight
@@ -280,7 +275,7 @@ int main()
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "spotLight.quadratic"), 0.7f);
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "spotLight.cutOff"), glm::cos(glm::radians(12.0f)));
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "spotLight.outerCutOff"), glm::cos(glm::radians(18.0f)));
-		
+
 
 		// Set material properties
 		glUniform1f(glGetUniformLocation(lightingShader.Program, "material.shininess"), 5.0f);
@@ -294,7 +289,7 @@ int main()
 		else {
 			view = cameraVR.GetViewMatrix();
 		}
-		
+
 
 		// Get the uniform locations
 		GLint modelLoc = glGetUniformLocation(lightingShader.Program, "model");
@@ -308,200 +303,85 @@ int main()
 
 		glm::mat4 model(1);
 
-	
-		
+
+
 		//Carga de modelo 
-		
-        //view = camera.GetViewMatrix();	
+
+		//view = camera.GetViewMatrix();	
 
 
 		model = glm::mat4(1);
-		model = glm::scale(model, glm::vec3(5.0f,1.0f,5.0f));
+		model = glm::scale(model, glm::vec3(5.0f, 1.0f, 5.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Piso.Draw(lightingShader);
+		salon.Draw(lightingShader);
 
 		model = glm::mat4(1);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
-		Dog.Draw(lightingShader);
+		bancas.Draw(lightingShader);
 
-
-		// Si la animación está activa, acumula el tiempo
-		if (AnimBall) {
-			animTime += deltaTime;
-		}
-
-		
-		float amplitude = 0.9f;  // (1.75 - (-0.15)) / 2
-		float offset = 0.75f;    // -0.15 + amplitude = -0.15 + 0.95
-		ballPosY = amplitude * -cos(animTime) + offset;
-
-		
-		
-		
-
-		model = glm::mat4(1);
-		glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 1);
-		model = glm::translate(model, glm::vec3(0.0f, ballPosY, 0.1f));
-		//model = glm::rotate(model, glm::radians(rotBall), glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-	    Ball.Draw(lightingShader); 
-		glDisable(GL_BLEND);  //Desactiva el canal alfa 
 		glBindVertexArray(0);
 
-		//Cuarto
-		glm::mat4 modelR(1);
-		modelR = glm::translate(modelR, glm::vec3(0.0f, -0.45f, 0.0f));
-		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelR));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
-		room.Draw(lightingShader);
-		//glDisable(GL_BLEND);  //Desactiva el canal alfa 
-		glBindVertexArray(0);
+		//	// Si la animación está activa, acumula el tiempo
+		//	if (AnimBall) {
+		//		animTime += deltaTime;
+		//	}
 
-		//Silla
-		glm::mat4 modelChair(1);
-		modelChair = glm::translate(modelChair, glm::vec3(0.0f, -0.5f, 0.0f));
-		modelChair = glm::scale(modelChair, glm::vec3(0.4f, 0.4f, 0.4f));
-		modelChair = glm::rotate(modelChair, -55.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelChair));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
-		chair.Draw(lightingShader);
-		//glDisable(GL_BLEND);  //Desactiva el canal alfa 
-		glBindVertexArray(0);
+		//	
+		//	float amplitude = 0.9f;  // (1.75 - (-0.15)) / 2
+		//	float offset = 0.75f;    // -0.15 + amplitude = -0.15 + 0.95
+		//	ballPosY = amplitude * -cos(animTime) + offset;
 
-		//Silla2
-		glm::mat4 modelChair2(1);
-		modelChair2 = glm::translate(modelChair2, glm::vec3(-1.0f, -0.5f, 0.0f));
-		modelChair2 = glm::scale(modelChair2, glm::vec3(0.4f, 0.4f, 0.4f));
-		modelChair2 = glm::rotate(modelChair2, -55.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelChair2));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
-		chair.Draw(lightingShader);
-		//glDisable(GL_BLEND);  //Desactiva el canal alfa 
-		glBindVertexArray(0);
+		//	
+		//	
+		//	
 
-		//Silla3
-		glm::mat4 modelChair3(1);
-		modelChair3 = glm::translate(modelChair3, glm::vec3(1.0f, -0.5f, 0.0f));
-		modelChair3 = glm::scale(modelChair3, glm::vec3(0.4f, 0.4f, 0.4f));
-		modelChair3 = glm::rotate(modelChair3, -55.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelChair3));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
-		chair.Draw(lightingShader);
-		//glDisable(GL_BLEND);  //Desactiva el canal alfa 
-		glBindVertexArray(0);
+		//
 
-		//Silla4
-		glm::mat4 modelChair4(1);
-		modelChair4 = glm::translate(modelChair4, glm::vec3(0.0f, -0.5f, 1.0f));
-		modelChair4 = glm::scale(modelChair4, glm::vec3(0.4f, 0.4f, 0.4f));
-		modelChair4 = glm::rotate(modelChair4, -55.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelChair4));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
-		chair.Draw(lightingShader);
-		//glDisable(GL_BLEND);  //Desactiva el canal alfa 
-		glBindVertexArray(0);
+		//	// Also draw the lamp object, again binding the appropriate shader
+		//	lampShader.Use();
+		//	// Get location objects for the matrices on the lamp shader (these could be different on a different shader)
+		//	modelLoc = glGetUniformLocation(lampShader.Program, "model");
+		//	viewLoc = glGetUniformLocation(lampShader.Program, "view");
+		//	projLoc = glGetUniformLocation(lampShader.Program, "projection");
 
-		//Silla5
-		glm::mat4 modelChair5(1);
-		modelChair5 = glm::translate(modelChair5, glm::vec3(-1.0f, -0.5f, 1.0f));
-		modelChair5 = glm::scale(modelChair5, glm::vec3(0.4f, 0.4f, 0.4f));
-		modelChair5 = glm::rotate(modelChair5, -55.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelChair5));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
-		chair.Draw(lightingShader);
-		//glDisable(GL_BLEND);  //Desactiva el canal alfa 
-		glBindVertexArray(0);
-
-		//Silla6
-		glm::mat4 modelChair6(1);
-		modelChair6 = glm::translate(modelChair6, glm::vec3(1.0f, -0.5f, 1.0f));
-		modelChair6 = glm::scale(modelChair6, glm::vec3(0.4f, 0.4f, 0.4f));
-		modelChair6 = glm::rotate(modelChair6, -55.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelChair6));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
-		chair.Draw(lightingShader);
-		//glDisable(GL_BLEND);  //Desactiva el canal alfa 
-		glBindVertexArray(0);
-
-
-		
+		//	// Set matrices
+		//	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+		//	glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+		//	model = glm::mat4(1);
+		//	model = glm::translate(model, lightPos);
+		//	model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
+		//	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//	// Draw the light object (using light's vertex attributes)
+		//	
+		//		model = glm::mat4(1);
+		//		model = glm::translate(model, pointLightPositions[0]);
+		//		model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
+		//		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//		glBindVertexArray(VAO);
+		//		glDrawArrays(GL_TRIANGLES, 0, 36);
+		//	
+		//	glBindVertexArray(0);
 
 
 
-		//Mesa
-		glm::mat4 modelTable(1);
-		modelTable = glm::translate(modelTable, glm::vec3(-2.3f, -0.5f, -2.0f));
-		modelTable = glm::rotate(modelTable, 135.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-		modelTable = glm::scale(modelTable, glm::vec3(0.7f, 0.7f, 0.7f));
-		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelTable));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
-		tablec.Draw(lightingShader);
-		//glDisable(GL_BLEND);  //Desactiva el canal alfa 
-		glBindVertexArray(0);
-	
+		//	// Swap the screen buffers
+		//	glfwSwapBuffers(window);
+		//}
 
-		// Also draw the lamp object, again binding the appropriate shader
-		lampShader.Use();
-		// Get location objects for the matrices on the lamp shader (these could be different on a different shader)
-		modelLoc = glGetUniformLocation(lampShader.Program, "model");
-		viewLoc = glGetUniformLocation(lampShader.Program, "view");
-		projLoc = glGetUniformLocation(lampShader.Program, "projection");
 
-		// Set matrices
-		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
-		model = glm::mat4(1);
-		model = glm::translate(model, lightPos);
-		model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		// Draw the light object (using light's vertex attributes)
-		
-			model = glm::mat4(1);
-			model = glm::translate(model, pointLightPositions[0]);
-			model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
-			glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-			glBindVertexArray(VAO);
-			glDrawArrays(GL_TRIANGLES, 0, 36);
-		
-		glBindVertexArray(0);
+		// Terminate GLFW, clearing any resources allocated by GLFW.
+		glfwTerminate();
 
 
 
-		// Swap the screen buffers
-		glfwSwapBuffers(window);
+		return 0;
 	}
-
-
-	// Terminate GLFW, clearing any resources allocated by GLFW.
-	glfwTerminate();
-
-
-
-	return 0;
 }
 
 
 
+
+// glfw: whenever the window size changed (by OS or user resize) this callback function executes
 
 // Moves/alters the camera positions based on user input
 void DoMovement()
