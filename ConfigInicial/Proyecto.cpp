@@ -1,6 +1,7 @@
-//Practica#10 (AnimBasica) Monroy Salazar
-//Fecha de entrega 08 de Abril de 2025
+//Proyecto 
+//Fecha de entrega 05 de Mayo de 2025
 //315118894
+//317019450
 
 #include <iostream>
 #include <cmath>
@@ -395,7 +396,7 @@ int main()
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);*/
 
 	// Create a GLFWwindow object that we can use for GLFW's functions
-	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Animacion basica Monroy Salazar", nullptr, nullptr);
+	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Proyecto Monroy Salazar y Alfaro Fragoso", nullptr, nullptr);
 
 	if (nullptr == window)
 	{
@@ -591,13 +592,13 @@ int main()
 
 		//Carga de modelo 
 		view = camera.GetViewMatrix();
-		model = glm::mat4(1);
+		/*model = glm::mat4(1);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		Piso.Draw(lightingShader);
 
 		model = glm::mat4(1);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);*/
 
 		//Salon
 		glm::mat4 modelR(1);
@@ -877,32 +878,32 @@ void DoMovement()
 
 	if (keys[GLFW_KEY_G])
 	{
-		dronPosX -= 0.02;
+		dronPosX -= 0.06;
 	}
 
 	if (keys[GLFW_KEY_J])
 	{
-		dronPosX += 0.02;
+		dronPosX += 0.06;
 	}
 
 	if (keys[GLFW_KEY_H])
 	{
-		dronPosZ += 0.02;
+		dronPosZ += 0.06;
 	}
 
 	if (keys[GLFW_KEY_Y])
 	{
-		dronPosZ -= 0.02;
+		dronPosZ -= 0.06;
 	}
 
 	if (keys[GLFW_KEY_UP])
 	{
-		dronPosY += 0.02;
+		dronPosY += 0.06;
 	}
 
 	if (keys[GLFW_KEY_DOWN])
 	{
-		dronPosY -= 0.02;
+		dronPosY -= 0.06;
 	}
 
 	if (keys[GLFW_KEY_LEFT])
