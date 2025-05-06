@@ -137,7 +137,7 @@ GLfloat lastFrame = 0.0f;  	// Time of last frame
 //Perro
 float dogPosX, dogPosY, dogPosZ;
 //Dron
-float dronPosX=10.0f, dronPosY=10.0f, dronPosZ=10.0f;
+float dronPosX, dronPosY, dronPosZ;
 
 #define MAX_FRAMES 90
 int i_max_steps = 190;
@@ -624,7 +624,7 @@ int main()
 
 
 		glm::mat4 modelB2M1(1);
-		modelB2M1 = glm::translate(modelB2M1, glm::vec3(-10.0f, -0.9f, -10.0f));
+		modelB2M1 = glm::translate(modelB2M1, glm::vec3(-10.0f, -0.5f, -12.8f));
 		modelB2M1 = glm::rotate(modelB2M1, 1.57f, glm::vec3(0.0f, 1.0f, 0.0f));
 		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -635,7 +635,7 @@ int main()
 		glBindVertexArray(0);
 
 		glm::mat4 modelB2M2(1);
-		modelB2M2 = glm::translate(modelB2M2, glm::vec3(0.0f, -0.9f, -10.0f));
+		modelB2M2 = glm::translate(modelB2M2, glm::vec3(0.0f, -0.5f, -12.8f));
 		modelB2M2 = glm::rotate(modelB2M2, 1.57f, glm::vec3(0.0f, 1.0f, 0.0f));
 		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -646,7 +646,7 @@ int main()
 		glBindVertexArray(0);
 
 		glm::mat4 modelB1M1(1);
-		modelB1M1 = glm::translate(modelB1M1, glm::vec3(-10.0f, -0.9f, 0.0f));
+		modelB1M1 = glm::translate(modelB1M1, glm::vec3(-10.0f, -0.5f, -5.0f));
 		modelB1M1 = glm::rotate(modelB1M1, 1.57f, glm::vec3(0.0f, 1.0f, 0.0f));
 		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -657,7 +657,7 @@ int main()
 		glBindVertexArray(0);
 
 		glm::mat4 modelB1M2(1);
-		modelB1M2 = glm::translate(modelB1M2, glm::vec3(0.0f, -0.9f, 0.0f));
+		modelB1M2 = glm::translate(modelB1M2, glm::vec3(0.0f, -0.5f, -5.0f));
 		modelB1M2 = glm::rotate(modelB1M2, 1.57f, glm::vec3(0.0f, 1.0f, 0.0f));
 		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -668,7 +668,7 @@ int main()
 		glBindVertexArray(0);
 
 		glm::mat4 modelB1M3(1);
-		modelB1M3 = glm::translate(modelB1M3, glm::vec3(0.0f, -0.9f, -10.0f));
+		modelB1M3 = glm::translate(modelB1M3, glm::vec3(0.0f, -0.5f, 5.0f));
 		modelB1M3 = glm::rotate(modelB1M3, 1.57f, glm::vec3(0.0f, 1.0f, 0.0f));
 		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -679,7 +679,7 @@ int main()
 		glBindVertexArray(0);
 
 		glm::mat4 modelB1M4(1);
-		modelB1M4 = glm::translate(modelB1M4, glm::vec3(-10.0f, -0.9f, -10.0f));
+		modelB1M4 = glm::translate(modelB1M4, glm::vec3(-10.0f, -0.5f, 5.0f));
 		modelB1M4 = glm::rotate(modelB1M4, 1.57f, glm::vec3(0.0f, 1.0f, 0.0f));
 		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -691,7 +691,7 @@ int main()
 
 
 		glm::mat4 modelB2M3(1);
-		modelB2M3 = glm::translate(modelB2M3, glm::vec3(-10.0f, -0.9f, -15.0f));
+		modelB2M3 = glm::translate(modelB2M3, glm::vec3(-10.0f, -0.5f, 15.0f));
 		modelB2M3 = glm::rotate(modelB2M3, 1.57f, glm::vec3(0.0f, 1.0f, 0.0f));
 		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -702,7 +702,7 @@ int main()
 		glBindVertexArray(0);
 
 		glm::mat4 modelB2M4(1);
-		modelB2M4 = glm::translate(modelB2M4, glm::vec3(0.0f, -0.9f, -15.0f));
+		modelB2M4 = glm::translate(modelB2M4, glm::vec3(0.0f, -0.5f, 15.0f));
 		modelB2M4 = glm::rotate(modelB2M4, 1.57f, glm::vec3(0.0f, 1.0f, 0.0f));
 		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -778,27 +778,27 @@ int main()
 
 
 		// Also draw the lamp object, again binding the appropriate shader
-		lampShader.Use();
-		// Get location objects for the matrices on the lamp shader (these could be different on a different shader)
-		modelLoc = glGetUniformLocation(lampShader.Program, "model");
-		viewLoc = glGetUniformLocation(lampShader.Program, "view");
-		projLoc = glGetUniformLocation(lampShader.Program, "projection");
+		//lampShader.Use();
+		//// Get location objects for the matrices on the lamp shader (these could be different on a different shader)
+		//modelLoc = glGetUniformLocation(lampShader.Program, "model");
+		//viewLoc = glGetUniformLocation(lampShader.Program, "view");
+		//projLoc = glGetUniformLocation(lampShader.Program, "projection");
 
-		// Set matrices
-		glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-		glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
-		model = glm::mat4(1);
-		model = glm::translate(model, lightPos);
-		model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		// Draw the light object (using light's vertex attributes)
+		//// Set matrices
+		//glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+		//glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+		//model = glm::mat4(1);
+		//model = glm::translate(model, lightPos);
+		//model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//// Draw the light object (using light's vertex attributes)
 
-		model = glm::mat4(1);
-		model = glm::translate(model, pointLightPositions[0]);
-		model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		glBindVertexArray(VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		//model = glm::mat4(1);
+		//model = glm::translate(model, pointLightPositions[0]);
+		//model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//glBindVertexArray(VAO);
+		//glDrawArrays(GL_TRIANGLES, 0, 36);
 
 		glBindVertexArray(0);
 
@@ -875,44 +875,44 @@ void DoMovement()
 		dogPosX += 0.01;
 	}*/
 
-	if (keys[GLFW_KEY_T])
-	{
-		dronPosX -= 0.01;
-	}
-
 	if (keys[GLFW_KEY_G])
 	{
-		dronPosX += 0.01;
+		dronPosX -= 0.02;
 	}
 
-	if (keys[GLFW_KEY_F])
+	if (keys[GLFW_KEY_J])
 	{
-		dronPosZ += 0.01;
+		dronPosX += 0.02;
 	}
 
 	if (keys[GLFW_KEY_H])
 	{
-		dronPosZ -= 0.01;
+		dronPosZ += 0.02;
+	}
+
+	if (keys[GLFW_KEY_Y])
+	{
+		dronPosZ -= 0.02;
 	}
 
 	if (keys[GLFW_KEY_UP])
 	{
-		dronPosY += 0.01;
+		dronPosY += 0.02;
 	}
 
 	if (keys[GLFW_KEY_DOWN])
 	{
-		dronPosY -= 0.01;
+		dronPosY -= 0.02;
 	}
 
 	if (keys[GLFW_KEY_LEFT])
 	{
-		dronRot += 1.0f;
+		dronRot += 2.0f;
 	}
 
 	if (keys[GLFW_KEY_RIGHT])
 	{
-		dronRot -= 1.0f;
+		dronRot -= 2.0f;
 	}
 
 
