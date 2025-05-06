@@ -113,6 +113,8 @@ glm::vec3 Light1 = glm::vec3(0);
 
 
 //Anim
+
+//Perro
 float rotBall = 0.0f;
 float rotDog = 0.0f;
 int dogAnim = 0;
@@ -121,6 +123,10 @@ float RLegs = 0.0f;
 float head = 0.0f;
 float tail = 0.0f;
 
+//Dron
+float dronRot = 0.0f;
+
+
 
 
 // Deltatime
@@ -128,9 +134,12 @@ GLfloat deltaTime = 0.0f;	// Time between current frame and last frame
 GLfloat lastFrame = 0.0f;  	// Time of last frame
 
 //KeyFrames
+//Perro
 float dogPosX, dogPosY, dogPosZ;
+//Dron
+float dronPosX=10.0f, dronPosY=10.0f, dronPosZ=10.0f;
 
-#define MAX_FRAMES 9
+#define MAX_FRAMES 90
 int i_max_steps = 190;
 int i_curr_steps = 0;
 typedef struct _frame {
@@ -140,19 +149,44 @@ typedef struct _frame {
 	float dogPosX;
 	float dogPosY;
 	float dogPosZ;
-	float incX;
-	float incY;
-	float incZ;
+	float dogIncX;
+	float dogIncY;
+	float dogIncZ;
 	float head;
 	float headInc;
 
+	
 
 }FRAME;
 
+typedef struct _framedron {
+
+	float dronPosX;
+	float dronPosY;
+	float dronPosZ;
+
+	float dronRot;
+	float dronRotInc;
+
+	float dronIncX;
+	float dronIncY;
+	float dronIncZ;
+
+
+}FRAMEDRON;
+
+
+
 FRAME KeyFrame[MAX_FRAMES];
+FRAMEDRON KeyFrameDron[MAX_FRAMES];
 int FrameIndex = 0;			//introducir datos
+
+int FrameIndexDron = 0;	//introducir datos
+
 bool play = false;
 int playIndex = 0;
+
+
 
 void saveFrame(void)
 {
@@ -166,10 +200,32 @@ void saveFrame(void)
 	KeyFrame[FrameIndex].rotDog = rotDog;
 	KeyFrame[FrameIndex].head = head;
 
+	
+
+
 
 	FrameIndex++;
 }
-void SaveKeyFramesToFile(const std::string& filename) {
+
+
+void saveFrameDron(void)
+{
+
+	printf("frameindexdron %d\n", FrameIndexDron);
+
+
+
+	KeyFrameDron[FrameIndexDron].dronPosX = dronPosX;
+	KeyFrameDron[FrameIndexDron].dronPosY = dronPosY;
+	KeyFrameDron[FrameIndexDron].dronPosZ = dronPosZ;
+	KeyFrameDron[FrameIndexDron].dronRot = dronRot;
+
+
+
+	FrameIndexDron++;
+}
+
+void SaveKeyFramesToFile(const std::string & filename) {
 	std::ofstream outFile(filename);
 	if (!outFile.is_open()) {
 		std::cerr << "Error al abrir el archivo para guardar los keyframes: " << filename << std::endl;
@@ -190,6 +246,26 @@ void SaveKeyFramesToFile(const std::string& filename) {
 }
 
 
+void SaveKeyFramesDronToFile(const std::string & filename) {
+	std::ofstream outFile(filename);
+	if (!outFile.is_open()) {
+		std::cerr << "Error al abrir el archivo para guardar los keyframes: " << filename << std::endl;
+		return;
+	}
+
+	outFile << FrameIndexDron << std::endl;
+	for (int i = 0; i < FrameIndexDron; ++i) {
+		outFile << KeyFrameDron[i].dronPosX << " "
+			<< KeyFrameDron[i].dronPosY << " "
+			<< KeyFrameDron[i].dronPosZ << " "
+			<< KeyFrameDron[i].dronRot << std::endl;
+	}
+
+	outFile.close();
+	std::cout << "Keyframes guardados correctamente en el archivo: " << filename << std::endl;
+}
+
+
 
 
 
@@ -202,16 +278,27 @@ void resetElements(void)
 
 	rotDog = KeyFrame[0].rotDog;
 
+	dronPosX = KeyFrameDron[0].dronPosX;
+	dronPosY = KeyFrameDron[0].dronPosY;
+	dronPosZ = KeyFrameDron[0].dronPosZ;
+	dronRot = KeyFrameDron[0].dronRot;
+
 }
 void interpolation(void)
 {
 
-	KeyFrame[playIndex].incX = (KeyFrame[playIndex + 1].dogPosX - KeyFrame[playIndex].dogPosX) / i_max_steps;
-	KeyFrame[playIndex].incY = (KeyFrame[playIndex + 1].dogPosY - KeyFrame[playIndex].dogPosY) / i_max_steps;
-	KeyFrame[playIndex].incZ = (KeyFrame[playIndex + 1].dogPosZ - KeyFrame[playIndex].dogPosZ) / i_max_steps;
+	KeyFrame[playIndex].dogIncX = (KeyFrame[playIndex + 1].dogPosX - KeyFrame[playIndex].dogPosX) / i_max_steps;
+	KeyFrame[playIndex].dogIncY = (KeyFrame[playIndex + 1].dogPosY - KeyFrame[playIndex].dogPosY) / i_max_steps;
+	KeyFrame[playIndex].dogIncZ = (KeyFrame[playIndex + 1].dogPosZ - KeyFrame[playIndex].dogPosZ) / i_max_steps;
 	KeyFrame[playIndex].headInc = (KeyFrame[playIndex + 1].head - KeyFrame[playIndex].head) / i_max_steps;
 
 	KeyFrame[playIndex].rotDogInc = (KeyFrame[playIndex + 1].rotDog - KeyFrame[playIndex].rotDog) / i_max_steps;
+
+	KeyFrameDron[playIndex].dronIncX = (KeyFrameDron[playIndex + 1].dronPosX - KeyFrameDron[playIndex].dronPosX) / i_max_steps;
+	KeyFrameDron[playIndex].dronIncY = (KeyFrameDron[playIndex + 1].dronPosY - KeyFrameDron[playIndex].dronPosY) / i_max_steps;
+	KeyFrameDron[playIndex].dronIncZ = (KeyFrameDron[playIndex + 1].dronPosZ - KeyFrameDron[playIndex].dronPosZ) / i_max_steps;
+	KeyFrameDron[playIndex].dronRotInc = (KeyFrameDron[playIndex + 1].dronRot - KeyFrameDron[playIndex].dronRot) / i_max_steps;
+
 
 }
 
@@ -229,6 +316,7 @@ void LoadKeyFramesFromFile(const std::string& filename) {
 			>> KeyFrame[i].dogPosZ
 			>> KeyFrame[i].rotDog
 			>> KeyFrame[i].head;
+
 	}
 
 	inFile.close();
@@ -241,6 +329,32 @@ void LoadKeyFramesFromFile(const std::string& filename) {
 	}
 }
 
+void LoadKeyFramesDronFromFile(const std::string& filename) {
+	std::ifstream inFile(filename);
+	if (!inFile.is_open()) {
+		std::cerr << "Error al abrir el archivo para cargar los keyframes: " << filename << std::endl;
+		return;
+	}
+
+	inFile >> FrameIndexDron;
+	for (int i = 0; i < FrameIndexDron; ++i) {
+		inFile >> KeyFrameDron[i].dronPosX
+			>> KeyFrameDron[i].dronPosY
+			>> KeyFrameDron[i].dronPosZ
+			>> KeyFrameDron[i].dronRot;
+
+	}
+
+	inFile.close();
+	std::cout << "Keyframes cargados correctamente desde el archivo: " << filename << std::endl;
+
+	// Inicializar elementos y preparar la primera interpolaci?n
+	if (FrameIndexDron > 1) {
+		resetElements();  // Restablece los elementos al primer keyframe
+		interpolation();  // Prepara la interpolaci?n para la animaci?n
+	}
+}
+
 void ResetKeyFrames(void)
 {
 	for (int i = 0; i < MAX_FRAMES; i++)
@@ -248,13 +362,23 @@ void ResetKeyFrames(void)
 		KeyFrame[i].dogPosX = 0;
 		KeyFrame[i].dogPosY = 0;
 		KeyFrame[i].dogPosZ = 0;
-		KeyFrame[i].incX = 0;
-		KeyFrame[i].incY = 0;
-		KeyFrame[i].incZ = 0;
+		KeyFrame[i].dogIncX = 0;
+		KeyFrame[i].dogIncY = 0;
+		KeyFrame[i].dogIncZ = 0;
 		KeyFrame[i].rotDog = 0;
 		KeyFrame[i].rotDogInc = 0;
 		KeyFrame[i].head = 0;
 		KeyFrame[i].headInc = 0;
+
+
+		KeyFrameDron[i].dronPosX = 0;
+		KeyFrameDron[i].dronPosY = 0;
+		KeyFrameDron[i].dronPosZ = 0;
+		KeyFrameDron[i].dronIncX = 0;
+		KeyFrameDron[i].dronIncY = 0;
+		KeyFrameDron[i].dronIncZ = 0;
+
+		KeyFrameDron[i].dronRot = 0;
 	}
 }
 
@@ -337,12 +461,18 @@ int main()
 	Model Piso((char*)"Models/piso.obj");
 	Model Ball((char*)"Models/ball.obj");
 
+	Model Salon((char*)"Models/salon.obj");
+	Model Banca1((char*)"Models/Bancas1.obj");
+	Model Banca2((char*)"Models/Bancas2.obj");
+
+	Model dron((char*)"Models/Test/DronT2.obj");
+
 
 	//KeyFrames
 	ResetKeyFrames();
 
-
 	LoadKeyFramesFromFile("keyframes.dat");
+	LoadKeyFramesDronFromFile("keyframesdron.dat");
 
 
 
@@ -468,59 +598,183 @@ int main()
 		model = glm::mat4(1);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
-		//Body
-		modelTemp = model = glm::translate(model, glm::vec3(dogPosX, dogPosY, dogPosZ));
-		modelTemp = model = glm::rotate(model, glm::radians(rotDog), glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		DogBody.Draw(lightingShader);
-		//Head
-		model = modelTemp;
-		model = glm::translate(model, glm::vec3(0.0f, 0.093f, 0.208f));
-		model = glm::rotate(model, glm::radians(head), glm::vec3(0.0f, 0.0f, 1.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		HeadDog.Draw(lightingShader);
-		//Tail 
-		model = modelTemp;
-		model = glm::translate(model, glm::vec3(0.0f, 0.026f, -0.288f));
-		model = glm::rotate(model, glm::radians(tail), glm::vec3(0.0f, 0.0f, -1.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		DogTail.Draw(lightingShader);
-		//Front Left Leg
-		model = modelTemp;
-		model = glm::translate(model, glm::vec3(0.112f, -0.044f, 0.074f));
-		model = glm::rotate(model, glm::radians(FLegs), glm::vec3(-1.0f, 0.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		F_LeftLeg.Draw(lightingShader);
-		//Front Right Leg
-		model = modelTemp;
-		model = glm::translate(model, glm::vec3(-0.111f, -0.055f, 0.074f));
-		model = glm::rotate(model, glm::radians(FLegs), glm::vec3(1.0f, 0.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		F_RightLeg.Draw(lightingShader);
-		//Back Left Leg
-		model = modelTemp;
-		model = glm::translate(model, glm::vec3(0.082f, -0.046, -0.218));
-		model = glm::rotate(model, glm::radians(RLegs), glm::vec3(1.0f, 0.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		B_LeftLeg.Draw(lightingShader);
-		//Back Right Leg
-		model = modelTemp;
-		model = glm::translate(model, glm::vec3(-0.083f, -0.057f, -0.231f));
-		model = glm::rotate(model, glm::radians(RLegs), glm::vec3(-1.0f, 0.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		B_RightLeg.Draw(lightingShader);
 
+		//Salon
+		glm::mat4 modelR(1);
+		//modelR = glm::translate(modelR, glm::vec3(0.0f, -0.45f, 0.0f));
+		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelR));
+		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+		Salon.Draw(lightingShader);
+		//glDisable(GL_BLEND);  //Desactiva el canal alfa 
+		glBindVertexArray(0);
+
+		//Dron
 
 		model = glm::mat4(1);
-		glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		model = glm::translate(model, glm::vec3(dronPosX, dronPosY, dronPosZ));
+		model = glm::rotate(model, glm::radians(dronRot), glm::vec3(0.0f, 1.0f, 0.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 1);
-		model = glm::rotate(model, glm::radians(rotBall), glm::vec3(0.0f, 1.0f, 0.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		Ball.Draw(lightingShader);
-		glDisable(GL_BLEND);  //Desactiva el canal alfa 
+		dron.Draw(lightingShader);
 		glBindVertexArray(0);
+
+
+		//Bancas
+
+
+		glm::mat4 modelB2M1(1);
+		modelB2M1 = glm::translate(modelB2M1, glm::vec3(-10.0f, -0.9f, -10.0f));
+		modelB2M1 = glm::rotate(modelB2M1, 1.57f, glm::vec3(0.0f, 1.0f, 0.0f));
+		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelB2M1));
+		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+		Banca2.Draw(lightingShader);
+		//glDisable(GL_BLEND);  //Desactiva el canal alfa 
+		glBindVertexArray(0);
+
+		glm::mat4 modelB2M2(1);
+		modelB2M2 = glm::translate(modelB2M2, glm::vec3(0.0f, -0.9f, -10.0f));
+		modelB2M2 = glm::rotate(modelB2M2, 1.57f, glm::vec3(0.0f, 1.0f, 0.0f));
+		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelB2M2));
+		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+		Banca2.Draw(lightingShader);
+		//glDisable(GL_BLEND);  //Desactiva el canal alfa 
+		glBindVertexArray(0);
+
+		glm::mat4 modelB1M1(1);
+		modelB1M1 = glm::translate(modelB1M1, glm::vec3(-10.0f, -0.9f, 0.0f));
+		modelB1M1 = glm::rotate(modelB1M1, 1.57f, glm::vec3(0.0f, 1.0f, 0.0f));
+		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelB1M1));
+		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+		Banca1.Draw(lightingShader);
+		//glDisable(GL_BLEND);  //Desactiva el canal alfa 
+		glBindVertexArray(0);
+
+		glm::mat4 modelB1M2(1);
+		modelB1M2 = glm::translate(modelB1M2, glm::vec3(0.0f, -0.9f, 0.0f));
+		modelB1M2 = glm::rotate(modelB1M2, 1.57f, glm::vec3(0.0f, 1.0f, 0.0f));
+		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelB1M2));
+		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+		Banca1.Draw(lightingShader);
+		//glDisable(GL_BLEND);  //Desactiva el canal alfa 
+		glBindVertexArray(0);
+
+		glm::mat4 modelB1M3(1);
+		modelB1M3 = glm::translate(modelB1M3, glm::vec3(0.0f, -0.9f, -10.0f));
+		modelB1M3 = glm::rotate(modelB1M3, 1.57f, glm::vec3(0.0f, 1.0f, 0.0f));
+		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelB1M3));
+		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+		Banca1.Draw(lightingShader);
+		//glDisable(GL_BLEND);  //Desactiva el canal alfa 
+		glBindVertexArray(0);
+
+		glm::mat4 modelB1M4(1);
+		modelB1M4 = glm::translate(modelB1M4, glm::vec3(-10.0f, -0.9f, -10.0f));
+		modelB1M4 = glm::rotate(modelB1M4, 1.57f, glm::vec3(0.0f, 1.0f, 0.0f));
+		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelB1M4));
+		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+		Banca1.Draw(lightingShader);
+		//glDisable(GL_BLEND);  //Desactiva el canal alfa 
+		glBindVertexArray(0);
+
+
+		glm::mat4 modelB2M3(1);
+		modelB2M3 = glm::translate(modelB2M3, glm::vec3(-10.0f, -0.9f, -15.0f));
+		modelB2M3 = glm::rotate(modelB2M3, 1.57f, glm::vec3(0.0f, 1.0f, 0.0f));
+		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelB2M3));
+		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+		Banca2.Draw(lightingShader);
+		//glDisable(GL_BLEND);  //Desactiva el canal alfa 
+		glBindVertexArray(0);
+
+		glm::mat4 modelB2M4(1);
+		modelB2M4 = glm::translate(modelB2M4, glm::vec3(0.0f, -0.9f, -15.0f));
+		modelB2M4 = glm::rotate(modelB2M4, 1.57f, glm::vec3(0.0f, 1.0f, 0.0f));
+		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelB2M4));
+		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+		Banca2.Draw(lightingShader);
+		//glDisable(GL_BLEND);  //Desactiva el canal alfa 
+		glBindVertexArray(0);
+
+		
+
+
+		
+
+
+		
+
+
+		//model = glm::mat4(1);
+		////Body
+		//modelTemp = model = glm::translate(model, glm::vec3(dogPosX, dogPosY, dogPosZ));
+		//modelTemp = model = glm::rotate(model, glm::radians(rotDog), glm::vec3(0.0f, 1.0f, 0.0f));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//DogBody.Draw(lightingShader);
+		////Head
+		//model = modelTemp;
+		//model = glm::translate(model, glm::vec3(0.0f, 0.093f, 0.208f));
+		//model = glm::rotate(model, glm::radians(head), glm::vec3(0.0f, 0.0f, 1.0f));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//HeadDog.Draw(lightingShader);
+		////Tail 
+		//model = modelTemp;
+		//model = glm::translate(model, glm::vec3(0.0f, 0.026f, -0.288f));
+		//model = glm::rotate(model, glm::radians(tail), glm::vec3(0.0f, 0.0f, -1.0f));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//DogTail.Draw(lightingShader);
+		////Front Left Leg
+		//model = modelTemp;
+		//model = glm::translate(model, glm::vec3(0.112f, -0.044f, 0.074f));
+		//model = glm::rotate(model, glm::radians(FLegs), glm::vec3(-1.0f, 0.0f, 0.0f));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//F_LeftLeg.Draw(lightingShader);
+		////Front Right Leg
+		//model = modelTemp;
+		//model = glm::translate(model, glm::vec3(-0.111f, -0.055f, 0.074f));
+		//model = glm::rotate(model, glm::radians(FLegs), glm::vec3(1.0f, 0.0f, 0.0f));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//F_RightLeg.Draw(lightingShader);
+		////Back Left Leg
+		//model = modelTemp;
+		//model = glm::translate(model, glm::vec3(0.082f, -0.046, -0.218));
+		//model = glm::rotate(model, glm::radians(RLegs), glm::vec3(1.0f, 0.0f, 0.0f));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//B_LeftLeg.Draw(lightingShader);
+		////Back Right Leg
+		//model = modelTemp;
+		//model = glm::translate(model, glm::vec3(-0.083f, -0.057f, -0.231f));
+		//model = glm::rotate(model, glm::radians(RLegs), glm::vec3(-1.0f, 0.0f, 0.0f));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//B_RightLeg.Draw(lightingShader);
+
+
+		//model = glm::mat4(1);
+		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 1);
+		//model = glm::rotate(model, glm::radians(rotBall), glm::vec3(0.0f, 1.0f, 0.0f));
+		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		//Ball.Draw(lightingShader);
+		//glDisable(GL_BLEND);  //Desactiva el canal alfa 
+		//glBindVertexArray(0);
 
 
 		// Also draw the lamp object, again binding the appropriate shader
@@ -573,7 +827,7 @@ void DoMovement()
 {
 	//Dog Controls
 
-	if (keys[GLFW_KEY_4])
+	/*if (keys[GLFW_KEY_4])
 	{
 
 		head += 1.0f;
@@ -585,7 +839,7 @@ void DoMovement()
 
 		head -= 1.0f;
 
-	}
+	}*/
 
 	if (keys[GLFW_KEY_2])
 	{
@@ -601,7 +855,7 @@ void DoMovement()
 
 	}
 
-	if (keys[GLFW_KEY_H])
+	/*if (keys[GLFW_KEY_H])
 	{
 		dogPosZ += 0.01;
 	}
@@ -619,10 +873,52 @@ void DoMovement()
 	if (keys[GLFW_KEY_J])
 	{
 		dogPosX += 0.01;
+	}*/
+
+	if (keys[GLFW_KEY_T])
+	{
+		dronPosX -= 0.01;
 	}
 
+	if (keys[GLFW_KEY_G])
+	{
+		dronPosX += 0.01;
+	}
+
+	if (keys[GLFW_KEY_F])
+	{
+		dronPosZ += 0.01;
+	}
+
+	if (keys[GLFW_KEY_H])
+	{
+		dronPosZ -= 0.01;
+	}
+
+	if (keys[GLFW_KEY_UP])
+	{
+		dronPosY += 0.01;
+	}
+
+	if (keys[GLFW_KEY_DOWN])
+	{
+		dronPosY -= 0.01;
+	}
+
+	if (keys[GLFW_KEY_LEFT])
+	{
+		dronRot += 1.0f;
+	}
+
+	if (keys[GLFW_KEY_RIGHT])
+	{
+		dronRot -= 1.0f;
+	}
+
+
+
 	// Camera controls
-	if (keys[GLFW_KEY_W] || keys[GLFW_KEY_UP])
+	if (keys[GLFW_KEY_W])
 	{
 		if (activeCamera) {
 			camera.ProcessKeyboard(FORWARD, deltaTime);
@@ -633,7 +929,7 @@ void DoMovement()
 
 	}
 
-	if (keys[GLFW_KEY_S] || keys[GLFW_KEY_DOWN])
+	if (keys[GLFW_KEY_S])
 	{
 		if (activeCamera) {
 			camera.ProcessKeyboard(BACKWARD, deltaTime);
@@ -645,7 +941,7 @@ void DoMovement()
 
 	}
 
-	if (keys[GLFW_KEY_A] || keys[GLFW_KEY_LEFT])
+	if (keys[GLFW_KEY_A])
 	{
 		if (activeCamera) {
 			camera.ProcessKeyboard(LEFT, deltaTime);
@@ -657,7 +953,7 @@ void DoMovement()
 		
 	}
 
-	if (keys[GLFW_KEY_D] || keys[GLFW_KEY_RIGHT])
+	if (keys[GLFW_KEY_D])
 	{
 		if (activeCamera) {
 			camera.ProcessKeyboard(RIGHT, deltaTime);
@@ -669,7 +965,7 @@ void DoMovement()
 
 	}
 
-	if (keys[GLFW_KEY_T])
+	/*if (keys[GLFW_KEY_T])
 	{
 		pointLightPositions[0].x += 0.01f;
 	}
@@ -694,7 +990,7 @@ void DoMovement()
 	if (keys[GLFW_KEY_J])
 	{
 		pointLightPositions[0].z += 0.01f;
-	}
+	}*/
 	
 }
 
@@ -703,7 +999,7 @@ void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode
 {
 	if (keys[GLFW_KEY_L])
 	{
-		if (play == false && (FrameIndex > 1))
+		if (play == false && (FrameIndex > 1) && (FrameIndexDron)>1)
 		{
 
 			resetElements();
@@ -724,12 +1020,21 @@ void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode
 	if (keys[GLFW_KEY_K])
 	{
 		
-		if (FrameIndex < MAX_FRAMES)
+		if (FrameIndexDron < MAX_FRAMES)
 		{
-			saveFrame();
-			SaveKeyFramesToFile("keyframes.dat");
+			
+			//Dron
+			saveFrameDron();
+			SaveKeyFramesDronToFile("keyframesdron.dat");
 		}
 
+	}
+
+	if (keys[GLFW_KEY_M])
+	{
+		//Dog
+		saveFrame();
+		SaveKeyFramesToFile("keyframes.dat");
 	}
 
 	if (GLFW_KEY_ESCAPE == key && GLFW_PRESS == action)
@@ -794,7 +1099,7 @@ void Animation() {
 		if (i_curr_steps >= i_max_steps) //end of animation between frames?
 		{
 			playIndex++;
-			if (playIndex > FrameIndex - 2)	//end of total animation?
+			if (playIndex > FrameIndex - 2 && playIndex > FrameIndexDron-2)	//end of total animation?
 			{
 				printf("termina anim\n");
 				playIndex = 0;
@@ -810,12 +1115,17 @@ void Animation() {
 		else
 		{
 			//Draw animation
-			dogPosX += KeyFrame[playIndex].incX;
-			dogPosY += KeyFrame[playIndex].incY;
-			dogPosZ += KeyFrame[playIndex].incZ;
+			dogPosX += KeyFrame[playIndex].dogIncX;
+			dogPosY += KeyFrame[playIndex].dogIncY;
+			dogPosZ += KeyFrame[playIndex].dogIncZ;
 			head += KeyFrame[playIndex].headInc;
 
 			rotDog += KeyFrame[playIndex].rotDogInc;
+
+			dronPosX += KeyFrameDron[playIndex].dronIncX;
+			dronPosY += KeyFrameDron[playIndex].dronIncY;
+			dronPosZ += KeyFrameDron[playIndex].dronIncZ;
+			dronRot += KeyFrameDron[playIndex].dronRotInc;
 
 			i_curr_steps++;
 		}
