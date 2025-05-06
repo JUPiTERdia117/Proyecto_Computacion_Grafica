@@ -452,7 +452,7 @@ int main()
 	Model handF5((char*)"Models/Test/handRobF5.obj");*/
 
 	//models
-	Model DogBody((char*)"Models/DogBody.obj");
+	/*Model DogBody((char*)"Models/DogBody.obj");
 	Model HeadDog((char*)"Models/HeadDog.obj");
 	Model DogTail((char*)"Models/TailDog.obj");
 	Model F_RightLeg((char*)"Models/F_RightLegDog.obj");
@@ -460,13 +460,13 @@ int main()
 	Model B_RightLeg((char*)"Models/B_RightLegDog.obj");
 	Model B_LeftLeg((char*)"Models/B_LeftLegDog.obj");
 	Model Piso((char*)"Models/piso.obj");
-	Model Ball((char*)"Models/ball.obj");
+	Model Ball((char*)"Models/ball.obj");*/
 
 	Model Salon((char*)"Models/salon.obj");
 	Model Banca1((char*)"Models/Bancas1.obj");
 	Model Banca2((char*)"Models/Bancas2.obj");
 
-	Model dron((char*)"Models/Test/DronT2.obj");
+	Model dron((char*)"Models/DronT2.obj");
 
 
 	//KeyFrames
@@ -878,42 +878,42 @@ void DoMovement()
 
 	if (keys[GLFW_KEY_G])
 	{
-		dronPosX -= 0.06;
+		dronPosX -= 0.03;
 	}
 
 	if (keys[GLFW_KEY_J])
 	{
-		dronPosX += 0.06;
+		dronPosX += 0.03;
 	}
 
 	if (keys[GLFW_KEY_H])
 	{
-		dronPosZ += 0.06;
+		dronPosZ += 0.03;
 	}
 
 	if (keys[GLFW_KEY_Y])
 	{
-		dronPosZ -= 0.06;
+		dronPosZ -= 0.03;
 	}
 
 	if (keys[GLFW_KEY_UP])
 	{
-		dronPosY += 0.06;
+		dronPosY += 0.03;
 	}
 
 	if (keys[GLFW_KEY_DOWN])
 	{
-		dronPosY -= 0.06;
+		dronPosY -= 0.03;
 	}
 
 	if (keys[GLFW_KEY_LEFT])
 	{
-		dronRot += 2.0f;
+		dronRot += 1.0f;
 	}
 
 	if (keys[GLFW_KEY_RIGHT])
 	{
-		dronRot -= 2.0f;
+		dronRot -= 1.0f;
 	}
 
 
