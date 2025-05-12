@@ -435,39 +435,23 @@ int main()
 	Shader lampShader("Shader/lamp.vs", "Shader/lamp.frag");
 	
 	//models
-	//Model Ball((char*)"Models/ball.obj");
-	//Model Piso((char*)"Models/piso.obj");
-	/*Model Dog((char*)"Models/RedDog.obj");
-	Model chair((char*)"Models/Chair/kursi.obj");
-	Model tablec((char*)"Models/Table/Chair_and_Table_School.obj");
-	Model room((char*)"Models/Room/Room.obj");
-	Model board((char*)"Models/Piza/pizar.obj");
-	Model dron((char*)"Models/Test/DronT2.obj");
-	Model room2((char*)"Models/Test/test12.obj");
-	Model hand((char*)"Models/Test/handRob.obj");
-	Model handF1((char*)"Models/Test/handRobF1.obj");
-	Model handF2((char*)"Models/Test/handRobF2.obj");
-	Model handF3((char*)"Models/Test/handRobF3.obj");
-	Model handF4((char*)"Models/Test/handRobF4.obj");
-	Model handF5((char*)"Models/Test/handRobF5.obj");*/
-
-	//models
-	/*Model DogBody((char*)"Models/DogBody.obj");
-	Model HeadDog((char*)"Models/HeadDog.obj");
-	Model DogTail((char*)"Models/TailDog.obj");
-	Model F_RightLeg((char*)"Models/F_RightLegDog.obj");
-	Model F_LeftLeg((char*)"Models/F_LeftLegDog.obj");
-	Model B_RightLeg((char*)"Models/B_RightLegDog.obj");
-	Model B_LeftLeg((char*)"Models/B_LeftLegDog.obj");
-	Model Piso((char*)"Models/piso.obj");
-	Model Ball((char*)"Models/ball.obj");*/
 
 	Model Salon((char*)"Models/salon.obj");
 	Model Banca1((char*)"Models/Bancas1.obj");
 	Model Banca2((char*)"Models/Bancas2.obj");
 
 	Model dron((char*)"Models/DronT2.obj");
-
+	//robot
+	Model antebrazoD((char*)"Models/antebrazoD.obj");
+	Model antebrazoI((char*)"Models/antebrazoI.obj");
+	Model brazoD((char*)"Models/brazoD.obj");
+	Model brazoI((char*)"Models/brazoI.obj");
+	Model cabeza((char*)"Models/Cabeza.obj");
+	Model pieD((char*)"Models/pieD.obj");
+	Model pieI((char*)"Models/pieI.obj");
+	Model piernaD((char*)"Models/piernaD.obj");
+	Model piernaI((char*)"Models/piernaI.obj");
+	Model torzo((char*)"Models/torzo.obj");
 
 	//KeyFrames
 	ResetKeyFrames();
@@ -713,7 +697,87 @@ int main()
 		//glDisable(GL_BLEND);  //Desactiva el canal alfa 
 		glBindVertexArray(0);
 
-		
+		//Robot 
+		//Antebrazo derecho 
+		glm::mat4 modelRAD(1);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelRAD));
+		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+		antebrazoD.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//Antebrazo izquierdo 
+		glm::mat4 modelRAI(1);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelRAI));
+		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+		antebrazoI.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//Brazo derecho 
+		glm::mat4 modelRBD(1);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelRBD));
+		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+		brazoD.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//Brazo Izquierdo 
+		glm::mat4 modelRBI(1);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelRBI));
+		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+		brazoI.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//Cabeza
+		glm::mat4 modelRC(1);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelRC));
+		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+		cabeza.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//PieD 
+		glm::mat4 modelRPD(1);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelRPD));
+		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+		pieD.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//PieI
+		glm::mat4 modelRPI(1);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelRPI));
+		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+		pieI.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//PiernaD 
+		glm::mat4 modelRPRD(1);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelRPRD));
+		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+		piernaD.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//Pierna izquierda 
+		glm::mat4 modelRPRI(1);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelRPRI));
+		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+		piernaI.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//Torzo
+		glm::mat4 modelRT(1);
+		modelRT = glm::translate(modelRT, glm::vec3(0.0f, 0.0f, 0.0f));
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelRT));
+		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
+		torzo.Draw(lightingShader);
+		glBindVertexArray(0);
 
 
 		
@@ -722,84 +786,7 @@ int main()
 		
 
 
-		//model = glm::mat4(1);
-		////Body
-		//modelTemp = model = glm::translate(model, glm::vec3(dogPosX, dogPosY, dogPosZ));
-		//modelTemp = model = glm::rotate(model, glm::radians(rotDog), glm::vec3(0.0f, 1.0f, 0.0f));
-		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		//DogBody.Draw(lightingShader);
-		////Head
-		//model = modelTemp;
-		//model = glm::translate(model, glm::vec3(0.0f, 0.093f, 0.208f));
-		//model = glm::rotate(model, glm::radians(head), glm::vec3(0.0f, 0.0f, 1.0f));
-		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		//HeadDog.Draw(lightingShader);
-		////Tail 
-		//model = modelTemp;
-		//model = glm::translate(model, glm::vec3(0.0f, 0.026f, -0.288f));
-		//model = glm::rotate(model, glm::radians(tail), glm::vec3(0.0f, 0.0f, -1.0f));
-		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		//DogTail.Draw(lightingShader);
-		////Front Left Leg
-		//model = modelTemp;
-		//model = glm::translate(model, glm::vec3(0.112f, -0.044f, 0.074f));
-		//model = glm::rotate(model, glm::radians(FLegs), glm::vec3(-1.0f, 0.0f, 0.0f));
-		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		//F_LeftLeg.Draw(lightingShader);
-		////Front Right Leg
-		//model = modelTemp;
-		//model = glm::translate(model, glm::vec3(-0.111f, -0.055f, 0.074f));
-		//model = glm::rotate(model, glm::radians(FLegs), glm::vec3(1.0f, 0.0f, 0.0f));
-		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		//F_RightLeg.Draw(lightingShader);
-		////Back Left Leg
-		//model = modelTemp;
-		//model = glm::translate(model, glm::vec3(0.082f, -0.046, -0.218));
-		//model = glm::rotate(model, glm::radians(RLegs), glm::vec3(1.0f, 0.0f, 0.0f));
-		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		//B_LeftLeg.Draw(lightingShader);
-		////Back Right Leg
-		//model = modelTemp;
-		//model = glm::translate(model, glm::vec3(-0.083f, -0.057f, -0.231f));
-		//model = glm::rotate(model, glm::radians(RLegs), glm::vec3(-1.0f, 0.0f, 0.0f));
-		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		//B_RightLeg.Draw(lightingShader);
-
-
-		//model = glm::mat4(1);
-		//glEnable(GL_BLEND);//Avtiva la funcionalidad para trabajar el canal alfa
-		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		//glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 1);
-		//model = glm::rotate(model, glm::radians(rotBall), glm::vec3(0.0f, 1.0f, 0.0f));
-		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		//Ball.Draw(lightingShader);
-		//glDisable(GL_BLEND);  //Desactiva el canal alfa 
-		//glBindVertexArray(0);
-
-
-		// Also draw the lamp object, again binding the appropriate shader
-		//lampShader.Use();
-		//// Get location objects for the matrices on the lamp shader (these could be different on a different shader)
-		//modelLoc = glGetUniformLocation(lampShader.Program, "model");
-		//viewLoc = glGetUniformLocation(lampShader.Program, "view");
-		//projLoc = glGetUniformLocation(lampShader.Program, "projection");
-
-		//// Set matrices
-		//glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-		//glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
-		//model = glm::mat4(1);
-		//model = glm::translate(model, lightPos);
-		//model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
-		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		//// Draw the light object (using light's vertex attributes)
-
-		//model = glm::mat4(1);
-		//model = glm::translate(model, pointLightPositions[0]);
-		//model = glm::scale(model, glm::vec3(0.2f)); // Make it a smaller cube
-		//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-		//glBindVertexArray(VAO);
-		//glDrawArrays(GL_TRIANGLES, 0, 36);
+		
 
 		glBindVertexArray(0);
 
