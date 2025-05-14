@@ -151,6 +151,37 @@ float piernaIRX = 0.0f;
 float piernaIRY = 0.0f;
 float piernaIRZ = 0.0f;
 
+//Animación del armado del robot 
+
+bool assemblingRobot = false;
+float assembleSpeed = 0.01f;
+float assembleProgress = 0.0f;
+
+// Coordenadas iniciales 
+glm::vec3 initialBrazoDPos(-1.2f, -0.5f, 0.463f);
+glm::vec3 initialBrazoIPos(1.2f, -0.5f, 12.499f);
+glm::vec3 initialPiernaDPos(-25.19f, 0.0f, -5.49f);
+glm::vec3 initialPiernaIPos(-25.19f, 0.0f, -8.5f);
+glm::vec3 initialTorzoPos(-15.217f, -2.0f, 9.461f);
+glm::vec3 initialCabezaPos(1.222f, -3.0f, 5.473f);
+
+// Coordenadas finales 
+glm::vec3 finalBrazoDPos(-1.2f, 0.2f, 5.463f);
+glm::vec3 finalBrazoIPos(-1.2f, 0.2f, 5.49f);
+glm::vec3 finalPiernaDPos(-1.19f, 0.0f, 5.49f);
+glm::vec3 finalPiernaIPos(-1.19f, 0.0f, 5.5f);
+glm::vec3 finalTorzoPos(-1.217f, 0.1f, 5.461f);
+glm::vec3 finalCabezaPos(-1.222f, 0.2f, 5.473f);
+
+// Variables para guardar las posiciones actuales durante el ensamblado
+glm::vec3 currentBrazoDPos = initialBrazoDPos;
+glm::vec3 currentBrazoIPos = initialBrazoIPos;
+glm::vec3 currentPiernaDPos = initialPiernaDPos;
+glm::vec3 currentPiernaIPos = initialPiernaIPos;
+glm::vec3 currentTorzoPos = initialTorzoPos;
+glm::vec3 currentCabezaPos = initialCabezaPos;
+
+
 // Deltatime
 GLfloat deltaTime = 0.0f;	// Time between current frame and last frame
 GLfloat lastFrame = 0.0f;  	// Time of last frame
@@ -162,8 +193,8 @@ float dogPosX, dogPosY, dogPosZ;
 float dronPosX, dronPosY, dronPosZ;
 //Hand
 float handPosX, handPosY, handPosZ;
-#define MAX_FRAMES 150
-int i_max_steps = 2500;
+#define MAX_FRAMES 90
+int i_max_steps = 150;
 int i_curr_steps = 0;
 typedef struct _frame {
 
@@ -550,6 +581,27 @@ void LoadKeyFramesFromFile(const std::string& filename) {
 	}
 }
 
+// Función para actualizar el ensamblado
+void UpdateAssembling() {
+	if (!assemblingRobot) return;
+
+	assembleProgress += assembleSpeed;
+
+	// Mover cada parte hacia su posición final
+	currentBrazoDPos = glm::mix(initialBrazoDPos, finalBrazoDPos, assembleProgress);
+	currentBrazoIPos = glm::mix(initialBrazoIPos, finalBrazoIPos, assembleProgress);
+	currentPiernaDPos = glm::mix(initialPiernaDPos, finalPiernaDPos, assembleProgress);
+	currentPiernaIPos = glm::mix(initialPiernaIPos, finalPiernaIPos, assembleProgress);
+	currentTorzoPos = glm::mix(initialTorzoPos, finalTorzoPos, assembleProgress);
+	currentCabezaPos = glm::mix(initialCabezaPos, finalCabezaPos, assembleProgress);
+
+	// Cuando llegue al 100%, detener la animación
+	if (assembleProgress >= 1.0f) {
+		assemblingRobot = false;
+		assembleProgress = 1.0f;
+	}
+}
+
 void LoadKeyFramesDronFromFile(const std::string& filename) {
 	std::ifstream inFile(filename);
 	if (!inFile.is_open()) {
@@ -797,7 +849,7 @@ int main()
 	LoadKeyFramesFromFile("keyframes.dat");
 	LoadKeyFramesDronFromFile("keyframesdron.dat");
 	LoadKeyFramesHandFromFile("keyframeshand.dat");
-
+	LoadKeyFramesRobotFromFile("keyframesrobot.dat");
 
 
 	// First, set the container's VAO (and VBO)
@@ -1038,65 +1090,64 @@ int main()
 
 		//Robot 
 
-		//Brazo derecho 
-		glm::mat4 modelRBD(1);
-		//modelRBD = glm::translate(modelRBD, glm::vec3(12.808f, 0.614f, 11.853f));
-		modelRBD = glm::rotate(model, glm::radians(brazoDRX), glm::vec3(1.0f, 0.0f, 0.0f));
-		modelRBD = glm::rotate(model, glm::radians(brazoDRY), glm::vec3(0.0f, 1.0f, 0.0f));
-		modelRBD = glm::rotate(model, glm::radians(brazoDRZ), glm::vec3(0.0f, 0.0f, 1.0f));
+	// Brazo derecho 
+		glm::mat4 modelBD(1);
+		modelBD = glm::translate(modelBD, currentBrazoDPos);
+		modelBD = glm::rotate(modelBD, glm::radians(brazoDRX), glm::vec3(1.0f, 0.0f, 0.0f));
+		modelBD = glm::rotate(modelBD, glm::radians(brazoDRY), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelBD = glm::rotate(modelBD, glm::radians(brazoDRZ), glm::vec3(0.0f, 0.0f, 1.0f));
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelRBD));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelBD));
 		brazoD.Draw(lightingShader);
 		glBindVertexArray(0);
 
-		//Brazo Izquierdo 
-		glm::mat4 modelRBI(1);
-		//modelRBI = glm::translate(modelRBI, glm::vec3(-17.934f, 0.711f, 0.864f));
-		modelRBI = glm::rotate(model, glm::radians(brazoIRX), glm::vec3(1.0f, 0.0f, 0.0f));
-		modelRBI = glm::rotate(model, glm::radians(brazoIRY), glm::vec3(0.0f, 1.0f, 0.0f));
-		modelRBI = glm::rotate(model, glm::radians(brazoIRZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		// Brazo Izquierdo 
+		glm::mat4 modelBI(1);
+		modelBI = glm::translate(modelBI, currentBrazoIPos);
+		modelBI = glm::rotate(modelBI, glm::radians(brazoIRX), glm::vec3(1.0f, 0.0f, 0.0f));
+		modelBI = glm::rotate(modelBI, glm::radians(brazoIRY), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelBI = glm::rotate(modelBI, glm::radians(brazoIRZ), glm::vec3(0.0f, 0.0f, 1.0f));
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelRBI));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelBI));
 		brazoI.Draw(lightingShader);
 		glBindVertexArray(0);
 
-		//Cabeza
-		glm::mat4 modelRC(1);
-		//modelRC = glm::translate(modelRC, glm::vec3(0.0f, 0.0f, 0.0f));
-		modelRC = glm::rotate(modelRC, glm::radians(cabezaRot), glm::vec3(1.0f, 0.0f, 0.0f));
+		// Cabeza
+		glm::mat4 modelC(1);
+		modelC = glm::translate(modelC, currentCabezaPos);
+		modelC = glm::rotate(modelC, glm::radians(cabezaRot), glm::vec3(0.0f, 1.0f, 0.0f));
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelRC));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelC));
 		cabeza.Draw(lightingShader);
 		glBindVertexArray(0);
 
-
-		//PiernaD 
-		glm::mat4 modelRPRD(1);
+		// PiernaD 
+		glm::mat4 modelPD(1);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		//modelRPRD = glm::translate(modelRPRD, glm::vec3(-18.363f, 3.178f, 12.881f));
-		modelRPRD = glm::rotate(model, glm::radians(piernaDRX), glm::vec3(1.0f, 0.0f, 0.0f));
-		modelRPRD = glm::rotate(model, glm::radians(piernaDRY), glm::vec3(0.0f, 1.0f, 0.0f));
-		modelRPRD = glm::rotate(model, glm::radians(piernaDRZ), glm::vec3(0.0f, 0.0f, 1.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelRPRD));
+		modelPD = glm::translate(modelPD, currentPiernaDPos);
+		modelPD = glm::rotate(modelPD, glm::radians(piernaDRX), glm::vec3(1.0f, 0.0f, 0.0f));
+		modelPD = glm::rotate(modelPD, glm::radians(piernaDRY), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelPD = glm::rotate(modelPD, glm::radians(piernaDRZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelPD));
 		piernaD.Draw(lightingShader);
 		glBindVertexArray(0);
 
-		//Pierna izquierda 
-		glm::mat4 modelRPRI(1);
+		// Pierna izquierda 
+		glm::mat4 modelPI(1);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		modelRPRI = glm::rotate(model, glm::radians(piernaIRX), glm::vec3(1.0f, 0.0f, 0.0f));
-		modelRPRI = glm::rotate(model, glm::radians(piernaIRY), glm::vec3(0.0f, 1.0f, 0.0f));
-		modelRPRI = glm::rotate(model, glm::radians(piernaIRZ), glm::vec3(0.0f, 0.0f, 1.0f));
-		//modelRPRI = glm::translate(modelRPRI, glm::vec3(-17.691f, 0.588f, -11.66f)); 
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelRPRI));
+		modelPI = glm::translate(modelPI, currentPiernaIPos);
+		modelPI = glm::rotate(modelPI, glm::radians(piernaIRX), glm::vec3(1.0f, 0.0f, 0.0f));
+		modelPI = glm::rotate(modelPI, glm::radians(piernaIRY), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelPI = glm::rotate(modelPI, glm::radians(piernaIRZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelPI));
 		piernaI.Draw(lightingShader);
 		glBindVertexArray(0);
 
-		//Torzo
-		glm::mat4 modelRT(1);
-		//modelRT = glm::translate(modelRT, glm::vec3(-18.363f, 3.178f, 12.881f));
+		// Torzo
+		glm::mat4 modelT(1);
+		modelT = glm::translate(modelT, currentTorzoPos);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelRT));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelT));
 		torzo.Draw(lightingShader);
 		glBindVertexArray(0);
 
@@ -1198,6 +1249,7 @@ int main()
 // Moves/alters the camera positions based on user input
 void DoMovement()
 {
+	UpdateAssembling();
 	//Dog Controls
 
 	/*if (keys[GLFW_KEY_4])
@@ -1277,24 +1329,24 @@ void DoMovement()
 	//if (keys[GLFW_KEY_0])
 	//{
 	//	//rotDog += 1.0f;
-	//	handD5RotZ -= 1.0f;
+	////	handD5RotZ -= 1.0f;
+	////}
+
+	//if (keys[GLFW_KEY_V])
+	//{
+
+	//	//rotDog -= 1.0f;
+	//	handRotZ += 1.0f;
+
 	//}
 
-	if (keys[GLFW_KEY_V])
-	{
+	//if (keys[GLFW_KEY_B])
+	//{
 
-		//rotDog -= 1.0f;
-		handRotZ += 1.0f;
+	//	//rotDog -= 1.0f;
+	//	handRotZ -= 1.0f;
 
-	}
-
-	if (keys[GLFW_KEY_B])
-	{
-
-		//rotDog -= 1.0f;
-		handRotZ -= 1.0f;
-
-	}
+	//}
 
 	/*if (keys[GLFW_KEY_H])
 	{
@@ -1316,117 +1368,198 @@ void DoMovement()
 		dogPosX += 0.01;
 	}*/
 
-	if (keys[GLFW_KEY_G])
-	{
-		//dronPosX -= 0.03;
-		handPosX -= 0.03f;
-	}
+	//if (keys[GLFW_KEY_G])
+	//{
+	//	//dronPosX -= 0.03;
+	//	handPosX -= 0.03f;
+	//}
 
-	if (keys[GLFW_KEY_J])
-	{
-		//dronPosX += 0.03;
-		handPosX += 0.03f;
-	}
+	//if (keys[GLFW_KEY_J])
+	//{
+	//	//dronPosX += 0.03;
+	//	handPosX += 0.03f;
+	//}
 
-	if (keys[GLFW_KEY_H])
-	{
-		//dronPosZ += 0.03;
-		handPosZ += 0.03f;
-	}
+	//if (keys[GLFW_KEY_H])
+	//{
+	//	//dronPosZ += 0.03;
+	//	handPosZ += 0.03f;
+	//}
 
-	if (keys[GLFW_KEY_Y])
-	{
-		
-		//dronPosZ -= 0.03;
-		handPosZ -= 0.03f;
-	}
+	//if (keys[GLFW_KEY_Y])
+	//{
+	//	
+	//	//dronPosZ -= 0.03;
+	//	handPosZ -= 0.03f;
+	//}
 
-	if (keys[GLFW_KEY_UP])
-	{
-		//dronPosY += 0.03;
-		handPosY += 0.03f;
-	}
+	//if (keys[GLFW_KEY_UP])
+	//{
+	//	//dronPosY += 0.03;
+	//	handPosY += 0.03f;
+	//}
 
-	if (keys[GLFW_KEY_DOWN])
-	{
-		//dronPosY -= 0.03;
-		handPosY -= 0.03f;
-	}
+	//if (keys[GLFW_KEY_DOWN])
+	//{
+	//	//dronPosY -= 0.03;
+	//	handPosY -= 0.03f;
+	//}
 
-	if (keys[GLFW_KEY_LEFT])
-	{
-		//dronRot += 1.0f;
-		handRot += 1.0f;
-	}
+	//if (keys[GLFW_KEY_LEFT])
+	//{
+	//	//dronRot += 1.0f;
+	//	handRot += 1.0f;
+	//}
 
-	if (keys[GLFW_KEY_RIGHT])
-	{
-		//dronRot -= 1.0f;
-		handRot -= 1.0f;
-	}
+	//if (keys[GLFW_KEY_RIGHT])
+	//{
+	//	//dronRot -= 1.0f;
+	//	handRot -= 1.0f;
+	//}
 	//Robot 
 
-	if (keys[GLFW_KEY_0])
-	{
-		//cabeza;
-		cabezaRot += 0.5f;
-	}
-	if (keys[GLFW_KEY_1])
-	{
-		//cabeza;
-		cabezaRot -= 0.5f;
-	}
-	if (keys[GLFW_KEY_2])
-	{
-		//brazos;
-		 brazoDRY+= 0.5f;
-		 brazoIRY += 0.5f;
-	}
-	if (keys[GLFW_KEY_3])
-	{
-		//brazos;
-		brazoDRY -= 0.5f;
-		brazoIRY -= 0.5f;
-	}
-	if (keys[GLFW_KEY_4])
-	{
-		//brazos;
-		brazoDRX += 0.5f;
-		brazoIRX -= 0.5f;
-	}
-	if (keys[GLFW_KEY_5])
-	{
-		//brazos;
-		brazoDRZ += 0.5f;
-		brazoIRZ -= 0.5f;
-	}
-	if (keys[GLFW_KEY_6])
-	{
-		//Píerna;
-		piernaDRY += 0.5f;
-		piernaIRY += 0.5f;
-	}
-	if (keys[GLFW_KEY_7])
-	{
-		//Píerna;
-		piernaDRZ += 0.5f;
-	}
-	if (keys[GLFW_KEY_8])
-	{
-		//Píerna;
-		piernaIRZ += 0.5f;
-	}
-	if (keys[GLFW_KEY_9])
-	{
-		//Píerna;
-		piernaDRZ -= 0.5f;
-	}
-	if (keys[GLFW_KEY_H])
-	{
-		//Píerna;
-		piernaIRZ -= 0.5f;
-	}
+	//if (keys[GLFW_KEY_0])
+	//{
+	//	//cabeza;
+	//	cabezaRot += 0.3f;
+	//}
+	//if (keys[GLFW_KEY_1])
+	//{
+	//	//cabeza;
+	//	cabezaRot -= 0.3f;
+	//}
+	//if (keys[GLFW_KEY_2])
+	//{
+	//	//brazos;
+	//	 brazoDRX+= 0.3f;
+	//}
+	//if (keys[GLFW_KEY_3])
+	//{
+	//	//brazos;
+	//	brazoDRX -= 0.3f;
 
+	//}
+	//if (keys[GLFW_KEY_4])
+	//{
+	//	//brazos;
+	//	brazoDRY += 0.3f;
+	//}
+	//if (keys[GLFW_KEY_5])
+	//{
+	//	//brazos;
+	//	brazoDRY -= 0.3f;
+
+	//}
+	//if (keys[GLFW_KEY_6])
+	//{
+	//	//brazo;
+	//	brazoDRZ += 0.3f;
+	//	
+	//}
+	//if (keys[GLFW_KEY_7])
+	//{
+	//	//Píerna;
+	//	brazoDRZ -= 0.3f;
+	//}
+	//if (keys[GLFW_KEY_8])
+	//{
+	//	//brazos;
+	//	brazoIRX += 0.3f;
+	//}
+	//if (keys[GLFW_KEY_9])
+	//{
+	//	//brazos;
+	//	brazoIRX -= 0.3f;
+
+	//}
+	//if (keys[GLFW_KEY_E])
+	//{
+	//	//brazos;
+	//	brazoIRY += 0.3f;
+	//}
+	//if (keys[GLFW_KEY_R])
+	//{
+	//	//brazos;
+	//	brazoIRY -= 0.3f;
+
+	//}
+	//if (keys[GLFW_KEY_T])
+	//{
+	//	//brazo;
+	//	brazoIRZ += 0.3f;
+
+	//}
+	//if (keys[GLFW_KEY_Y])
+	//{
+	//	//Píerna;
+	//	brazoIRZ -= 0.3f;
+	//}
+	//if (keys[GLFW_KEY_U])
+	//{
+	//	//brazos;
+	//	piernaIRX += 0.3f;
+	//}
+	//if (keys[GLFW_KEY_I])
+	//{
+	//	//brazos;
+	//	piernaIRX -= 0.3f;
+
+	//}
+	//if (keys[GLFW_KEY_O])
+	//{
+	//	//brazos;
+	//	piernaIRY += 0.3f;
+	//}
+	//if (keys[GLFW_KEY_F])
+	//{
+	//	//brazos;
+	//	piernaIRY -= 0.3f;
+
+	//}
+	//if (keys[GLFW_KEY_G])
+	//{
+	//	//brazo;
+	//	piernaIRZ += 0.3f;
+
+	//}
+	//if (keys[GLFW_KEY_H])
+	//{
+	////Píerna;
+	//	piernaIRZ -= 0.3f;
+	//}
+	//if (keys[GLFW_KEY_J])
+	//{
+	//	//brazos;
+	//	piernaDRX += 0.3f;
+	//}
+	//if (keys[GLFW_KEY_K])
+	//{
+	//	//brazos;
+	//	piernaDRX -= 0.3f;
+
+	//}
+	//if (keys[GLFW_KEY_Z])
+	//{
+	//	//brazos;
+	//	piernaDRY += 0.3f;
+	//}
+	//if (keys[GLFW_KEY_X])
+	//{
+	//	//brazos;
+	//	piernaDRY -= 0.3f;
+
+	//}
+	//if (keys[GLFW_KEY_C])
+	//{
+	//	//brazo;
+	//	piernaDRZ += 0.3f;
+
+	//}
+	//if (keys[GLFW_KEY_V])
+	//{
+	//	//Píerna;
+	//	piernaDRZ -= 0.3f;
+	//}
 
 	// Camera controls
 	if (keys[GLFW_KEY_W])
@@ -1604,6 +1737,20 @@ void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode
 	{
 		// Alternar entre las cámaras
 		activeCamera = !activeCamera;
+	}
+
+	if (key == GLFW_KEY_Z && action == GLFW_PRESS) {
+		if (!assemblingRobot) {
+			assemblingRobot = true;
+			assembleProgress = 0.0f;
+			// Resetear posiciones a las iniciales
+			currentBrazoDPos = initialBrazoDPos;
+			currentBrazoIPos = initialBrazoIPos;
+			currentPiernaDPos = initialPiernaDPos;
+			currentPiernaIPos = initialPiernaIPos;
+			currentTorzoPos = initialTorzoPos;
+			currentCabezaPos = initialCabezaPos;
+		}
 	}
 }
 //void Animation() {
