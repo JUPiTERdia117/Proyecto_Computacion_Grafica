@@ -160,9 +160,9 @@ float assembleProgress = 0.0f;
 // Coordenadas iniciales 
 glm::vec3 initialBrazoDPos(-1.2f, -0.5f, 0.463f);
 glm::vec3 initialBrazoIPos(1.2f, -0.5f, 12.499f);
-glm::vec3 initialPiernaDPos(-25.19f, 0.0f, -5.49f);
-glm::vec3 initialPiernaIPos(-25.19f, 0.0f, -8.5f);
-glm::vec3 initialTorzoPos(-15.217f, -2.0f, 9.461f);
+glm::vec3 initialPiernaDPos(-2.19f, 0.0f, -5.49f);
+glm::vec3 initialPiernaIPos(-2.19f, 0.0f, -8.5f);
+glm::vec3 initialTorzoPos(-5.217f, -2.0f, 9.461f);
 glm::vec3 initialCabezaPos(1.222f, -3.0f, 5.473f);
 
 // Coordenadas finales 
@@ -1156,74 +1156,556 @@ int main()
 
 
 		//Hand
-
-		model = glm::mat4(1);
-		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
-		model = glm::translate(model, glm::vec3(handPosX, handPosY, handPosZ));
-		model = glm::rotate(model, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::rotate(model, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		glm::mat4 modelH(1);
+		modelH = glm::mat4(1);
+		modelH = glm::scale(modelH, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH = glm::translate(modelH, glm::vec3(handPosX, handPosY, handPosZ));
+		modelH = glm::rotate(modelH, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH = glm::rotate(modelH, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH));
 		Hand.Draw(lightingShader);
 		glBindVertexArray(0);
 
 		//D1
-		model = glm::mat4(1);
-		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
-		model = glm::translate(model, glm::vec3(handPosX, handPosY, handPosZ));
-		model = glm::rotate(model, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::rotate(model, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
-		model = glm::rotate(model, glm::radians(handD1RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		modelH = glm::mat4(1);
+		modelH = glm::scale(modelH, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH = glm::translate(modelH, glm::vec3(handPosX, handPosY, handPosZ));
+		modelH = glm::rotate(modelH, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH = glm::rotate(modelH, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH = glm::rotate(modelH, glm::radians(handD1RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH));
 		HandD1.Draw(lightingShader);
 		glBindVertexArray(0);
 
 		//D2
-		model = glm::mat4(1);
-		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
-		model = glm::translate(model, glm::vec3(handPosX, handPosY, handPosZ));
-		model = glm::rotate(model, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::rotate(model, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
-		model = glm::rotate(model, glm::radians(handD2RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		modelH = glm::mat4(1);
+		modelH = glm::scale(modelH, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH = glm::translate(modelH, glm::vec3(handPosX, handPosY, handPosZ));
+		modelH = glm::rotate(modelH, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH = glm::rotate(modelH, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH = glm::rotate(modelH, glm::radians(handD2RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH));
 		HandD2.Draw(lightingShader);
 		glBindVertexArray(0);
 
 		//D3
-		model = glm::mat4(1);
-		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
-		model = glm::translate(model, glm::vec3(handPosX, handPosY, handPosZ));
-		model = glm::rotate(model, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::rotate(model, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
-		model = glm::rotate(model, glm::radians(handD3RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		modelH = glm::mat4(1);
+		modelH = glm::scale(modelH, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH = glm::translate(modelH, glm::vec3(handPosX, handPosY, handPosZ));
+		modelH = glm::rotate(modelH, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH = glm::rotate(modelH, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH = glm::rotate(modelH, glm::radians(handD3RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH));
 		HandD3.Draw(lightingShader);
 		glBindVertexArray(0);
 
 		//D4
-		model = glm::mat4(1);
-		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
-		model = glm::translate(model, glm::vec3(handPosX, handPosY, handPosZ));
-		model = glm::rotate(model, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::rotate(model, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
-		model = glm::rotate(model, glm::radians(handD4RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		modelH = glm::mat4(1);
+		modelH = glm::scale(modelH, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH = glm::translate(modelH, glm::vec3(handPosX, handPosY, handPosZ));
+		modelH = glm::rotate(modelH, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH = glm::rotate(modelH, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH= glm::rotate(modelH, glm::radians(handD4RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH));
 		HandD4.Draw(lightingShader);
 		glBindVertexArray(0);
 
 
 		//D5
-		model = glm::mat4(1);
-		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));
-		model = glm::translate(model, glm::vec3(handPosX, handPosY, handPosZ));
-		model = glm::rotate(model, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::rotate(model, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
-		model = glm::rotate(model, glm::radians(handD5RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+		modelH = glm::mat4(1);
+		modelH = glm::scale(modelH, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH = glm::translate(modelH, glm::vec3(handPosX, handPosY, handPosZ));
+		modelH = glm::rotate(modelH, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH = glm::rotate(modelH, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH = glm::rotate(modelH, glm::radians(handD5RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH));
 		HandD5.Draw(lightingShader);
 		glBindVertexArray(0);
 
+
+		
+		//Hand2
+		glm::mat4 modelH2(1);
+		
+		modelH2 = glm::mat4(1);
+		modelH2 = glm::scale(modelH2, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH2 = glm::translate(modelH2, glm::vec3(handPosX-20, handPosY, handPosZ));
+		modelH2 = glm::rotate(modelH2, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH2 = glm::rotate(modelH2, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH2));
+		Hand.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//D1
+		modelH2 = glm::mat4(1);
+		modelH2 = glm::scale(modelH2, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH2 = glm::translate(modelH2, glm::vec3(handPosX - 20, handPosY, handPosZ));
+		modelH2 = glm::rotate(modelH2, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH2 = glm::rotate(modelH2, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH2 = glm::rotate(modelH2, glm::radians(handD1RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH2));
+		HandD1.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//D2
+		modelH2 = glm::mat4(1);
+		modelH2 = glm::scale(modelH2, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH2 = glm::translate(modelH2, glm::vec3(handPosX - 20, handPosY, handPosZ));
+		modelH2 = glm::rotate(modelH2, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH2 = glm::rotate(modelH2, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH2 = glm::rotate(modelH2, glm::radians(handD2RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH2));
+		HandD2.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//D3
+		modelH2 = glm::mat4(1);
+		modelH2 = glm::scale(modelH2, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH2 = glm::translate(modelH2, glm::vec3(handPosX - 20, handPosY, handPosZ));
+		modelH2 = glm::rotate(modelH2, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH2 = glm::rotate(modelH2, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH2 = glm::rotate(modelH2, glm::radians(handD3RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH2));
+		HandD3.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//D4
+		modelH2 = glm::mat4(1);
+		modelH2 = glm::scale(modelH2, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH2 = glm::translate(modelH2, glm::vec3(handPosX - 20, handPosY, handPosZ));
+		modelH2 = glm::rotate(modelH2,glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH2 = glm::rotate(modelH2, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH2 = glm::rotate(modelH2, glm::radians(handD4RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH2));
+		HandD4.Draw(lightingShader);
+		glBindVertexArray(0);
+
+
+		//D5
+		modelH2 = glm::mat4(1);
+		modelH2 = glm::scale(modelH2, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH2 = glm::translate(modelH2, glm::vec3(handPosX - 20, handPosY, handPosZ));
+		modelH2 = glm::rotate(modelH2, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH2 = glm::rotate(modelH2, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH2 = glm::rotate(modelH2, glm::radians(handD5RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH2));
+		HandD5.Draw(lightingShader);
+		glBindVertexArray(0);
+
+
+		//Hand3
+		glm::mat4 modelH3(1);
+
+		modelH3 = glm::mat4(1);
+		modelH3 = glm::scale(modelH3, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH3 = glm::translate(modelH3, glm::vec3(handPosX - 50, handPosY, handPosZ));
+		modelH3 = glm::rotate(modelH3, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH3 = glm::rotate(modelH3, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH3));
+		Hand.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//D1
+		modelH3 = glm::mat4(1);
+		modelH3 = glm::scale(modelH3, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH3 = glm::translate(modelH3, glm::vec3(handPosX - 50, handPosY, handPosZ));
+		modelH3 = glm::rotate(modelH3, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH3 = glm::rotate(modelH3, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH3 = glm::rotate(modelH3, glm::radians(handD1RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH3));
+		HandD1.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//D2
+		modelH3 = glm::mat4(1);
+		modelH3 = glm::scale(modelH3, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH3 = glm::translate(modelH3, glm::vec3(handPosX - 50, handPosY, handPosZ));
+		modelH3 = glm::rotate(modelH3, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH3 = glm::rotate(modelH3, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH3 = glm::rotate(modelH3, glm::radians(handD2RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH3));
+		HandD2.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//D3
+		modelH3 = glm::mat4(1);
+		modelH3 = glm::scale(modelH3, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH3 = glm::translate(modelH3, glm::vec3(handPosX - 50, handPosY, handPosZ));
+		modelH3 = glm::rotate(modelH3, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH3 = glm::rotate(modelH3, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH3 = glm::rotate(modelH3, glm::radians(handD3RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH3));
+		HandD3.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//D4
+		modelH3 = glm::mat4(1);
+		modelH3 = glm::scale(modelH3, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH3 = glm::translate(modelH3, glm::vec3(handPosX - 50, handPosY, handPosZ));
+		modelH3 = glm::rotate(modelH3, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH3 = glm::rotate(modelH3, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH3 = glm::rotate(modelH3, glm::radians(handD4RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH3));
+		HandD4.Draw(lightingShader);
+		glBindVertexArray(0);
+
+
+		//D5
+		modelH3 = glm::mat4(1);
+		modelH3 = glm::scale(modelH3, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH3 = glm::translate(modelH3, glm::vec3(handPosX - 50, handPosY, handPosZ));
+		modelH3 = glm::rotate(modelH3, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH3 = glm::rotate(modelH3, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH3 = glm::rotate(modelH3, glm::radians(handD5RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH3));
+		HandD5.Draw(lightingShader);
+		glBindVertexArray(0);
+
+
+		//Hand4
+		glm::mat4 modelH4(1);
+
+		modelH4 = glm::mat4(1);
+		modelH4 = glm::scale(modelH4, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH4 = glm::translate(modelH4, glm::vec3(handPosX - 70, handPosY, handPosZ));
+		modelH4 = glm::rotate(modelH4, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH4 = glm::rotate(modelH4, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH4));
+		Hand.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//D1
+		modelH4 = glm::mat4(1);
+		modelH4 = glm::scale(modelH4, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH4 = glm::translate(modelH4, glm::vec3(handPosX - 70, handPosY, handPosZ));
+		modelH4 = glm::rotate(modelH4, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH4 = glm::rotate(modelH4, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH4 = glm::rotate(modelH4, glm::radians(handD1RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH4));
+		HandD1.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//D2
+		modelH4 = glm::mat4(1);
+		modelH4 = glm::scale(modelH4, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH4 = glm::translate(modelH4, glm::vec3(handPosX - 70, handPosY, handPosZ));
+		modelH4 = glm::rotate(modelH4, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH4 = glm::rotate(modelH4, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH4 = glm::rotate(modelH4, glm::radians(handD2RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH4));
+		HandD2.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//D3
+		modelH4 = glm::mat4(1);
+		modelH4 = glm::scale(modelH4, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH4 = glm::translate(modelH4, glm::vec3(handPosX - 70, handPosY, handPosZ));
+		modelH4 = glm::rotate(modelH4, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH4 = glm::rotate(modelH4, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH4 = glm::rotate(modelH4, glm::radians(handD3RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH4));
+		HandD3.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//D4
+		modelH4 = glm::mat4(1);
+		modelH4 = glm::scale(modelH4, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH4 = glm::translate(modelH4, glm::vec3(handPosX - 70, handPosY, handPosZ));
+		modelH4 = glm::rotate(modelH4, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH4 = glm::rotate(modelH4, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH4 = glm::rotate(modelH4, glm::radians(handD4RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH4));
+		HandD4.Draw(lightingShader);
+		glBindVertexArray(0);
+
+
+		//D5
+		modelH4 = glm::mat4(1);
+		modelH4 = glm::scale(modelH4, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH4 = glm::translate(modelH4, glm::vec3(handPosX - 70, handPosY, handPosZ));
+		modelH4 = glm::rotate(modelH4, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH4 = glm::rotate(modelH4, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH4 = glm::rotate(modelH4, glm::radians(handD5RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH4));
+		HandD5.Draw(lightingShader);
+		glBindVertexArray(0);
 		
 
+		//Hand5
+		glm::mat4 modelH5(1);
+
+		modelH5 = glm::mat4(1);
+		modelH5 = glm::scale(modelH5, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH5 = glm::translate(modelH5, glm::vec3(handPosX, handPosY, handPosZ+50));
+		modelH5 = glm::rotate(modelH5, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH5 = glm::rotate(modelH5, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH5));
+		Hand.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//D1
+		modelH5 = glm::mat4(1);
+		modelH5 = glm::scale(modelH5, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH5 = glm::translate(modelH5, glm::vec3(handPosX, handPosY, handPosZ+50));
+		modelH5 = glm::rotate(modelH5, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH5 = glm::rotate(modelH5, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH5 = glm::rotate(modelH5, glm::radians(handD1RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH5));
+		HandD1.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//D2
+		modelH5 = glm::mat4(1);
+		modelH5 = glm::scale(modelH5, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH5 = glm::translate(modelH5, glm::vec3(handPosX, handPosY, handPosZ+50));
+		modelH5 = glm::rotate(modelH5, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH5 = glm::rotate(modelH5, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH5 = glm::rotate(modelH5, glm::radians(handD2RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH5));
+		HandD2.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//D3
+		modelH5 = glm::mat4(1);
+		modelH5 = glm::scale(modelH5, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH5 = glm::translate(modelH5, glm::vec3(handPosX, handPosY, handPosZ+50));
+		modelH5 = glm::rotate(modelH5, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH5 = glm::rotate(modelH5, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH5 = glm::rotate(modelH5, glm::radians(handD3RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH5));
+		HandD3.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//D4
+		modelH5 = glm::mat4(1);
+		modelH5 = glm::scale(modelH5, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH5 = glm::translate(modelH5, glm::vec3(handPosX, handPosY, handPosZ+50));
+		modelH5 = glm::rotate(modelH5, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH5 = glm::rotate(modelH5, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH5 = glm::rotate(modelH5, glm::radians(handD4RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH5));
+		HandD4.Draw(lightingShader);
+		glBindVertexArray(0);
+
+
+		//D5
+		modelH5 = glm::mat4(1);
+		modelH5 = glm::scale(modelH5, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH5 = glm::translate(modelH5, glm::vec3(handPosX, handPosY, handPosZ+50));
+		modelH5 = glm::rotate(modelH5, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH5 = glm::rotate(modelH5, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH5 = glm::rotate(modelH5, glm::radians(handD5RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH5));
+		HandD5.Draw(lightingShader);
+		glBindVertexArray(0);
+
+
+
+		//Hand6
+		glm::mat4 modelH6(1);
+
+		modelH6 = glm::mat4(1);
+		modelH6 = glm::scale(modelH6, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH6 = glm::translate(modelH6, glm::vec3(handPosX - 20, handPosY, handPosZ+50));
+		modelH6 = glm::rotate(modelH6, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH6 = glm::rotate(modelH6, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH6));
+		Hand.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//D1
+		modelH6 = glm::mat4(1);
+		modelH6 = glm::scale(modelH6, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH6 = glm::translate(modelH6, glm::vec3(handPosX - 20, handPosY, handPosZ+50));
+		modelH6 = glm::rotate(modelH6, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH6 = glm::rotate(modelH6, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH6 = glm::rotate(modelH6, glm::radians(handD1RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH6));
+		HandD1.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//D2
+		modelH6 = glm::mat4(1);
+		modelH6 = glm::scale(modelH6, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH6 = glm::translate(modelH6, glm::vec3(handPosX - 20, handPosY, handPosZ+50));
+		modelH6 = glm::rotate(modelH6, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH6 = glm::rotate(modelH6, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH6 = glm::rotate(modelH6, glm::radians(handD2RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH6));
+		HandD2.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//D3
+		modelH6 = glm::mat4(1);
+		modelH6 = glm::scale(modelH6, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH6 = glm::translate(modelH6, glm::vec3(handPosX - 20, handPosY, handPosZ+50));
+		modelH6 = glm::rotate(modelH6, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH6 = glm::rotate(modelH6, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH6 = glm::rotate(modelH6, glm::radians(handD3RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH6));
+		HandD3.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//D4
+		modelH6 = glm::mat4(1);
+		modelH6 = glm::scale(modelH6, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH6 = glm::translate(modelH6, glm::vec3(handPosX - 20, handPosY, handPosZ+50));
+		modelH6 = glm::rotate(modelH6, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH6 = glm::rotate(modelH6, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH6 = glm::rotate(modelH6, glm::radians(handD4RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH6));
+		HandD4.Draw(lightingShader);
+		glBindVertexArray(0);
+
+
+		//D5
+		modelH6 = glm::mat4(1);
+		modelH6 = glm::scale(modelH6, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH6 = glm::translate(modelH6, glm::vec3(handPosX - 20, handPosY, handPosZ+50));
+		modelH6 = glm::rotate(modelH6, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH6 = glm::rotate(modelH6, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH6 = glm::rotate(modelH6, glm::radians(handD5RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH6));
+		HandD5.Draw(lightingShader);
+		glBindVertexArray(0);
+
+
+		//Hand7
+		glm::mat4 modelH7(1);
+
+		modelH7 = glm::mat4(1);
+		modelH7 = glm::scale(modelH7, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH7 = glm::translate(modelH7, glm::vec3(handPosX - 50, handPosY, handPosZ+50));
+		modelH7 = glm::rotate(modelH7, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH7 = glm::rotate(modelH7, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH7));
+		Hand.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//D1
+		modelH7 = glm::mat4(1);
+		modelH7 = glm::scale(modelH7, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH7 = glm::translate(modelH7, glm::vec3(handPosX - 50, handPosY, handPosZ+50));
+		modelH7 = glm::rotate(modelH7, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH7 = glm::rotate(modelH7, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH7 = glm::rotate(modelH7, glm::radians(handD1RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH7));
+		HandD1.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//D2
+		modelH7 = glm::mat4(1);
+		modelH7 = glm::scale(modelH7, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH7 = glm::translate(modelH7, glm::vec3(handPosX - 50, handPosY, handPosZ+50));
+		modelH7 = glm::rotate(modelH7, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH7 = glm::rotate(modelH7, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH7 = glm::rotate(modelH7, glm::radians(handD2RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH7));
+		HandD2.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//D3
+		modelH7 = glm::mat4(1);
+		modelH7 = glm::scale(modelH7, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH7 = glm::translate(modelH7, glm::vec3(handPosX - 50, handPosY, handPosZ+50));
+		modelH7 = glm::rotate(modelH7, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH7 = glm::rotate(modelH7, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH7 = glm::rotate(modelH7, glm::radians(handD3RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH7));
+		HandD3.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//D4
+		modelH7 = glm::mat4(1);
+		modelH7 = glm::scale(modelH7, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH7 = glm::translate(modelH7, glm::vec3(handPosX - 50, handPosY, handPosZ+50));
+		modelH7 = glm::rotate(modelH7, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH7 = glm::rotate(modelH7, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH7 = glm::rotate(modelH7, glm::radians(handD4RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH7));
+		HandD4.Draw(lightingShader);
+		glBindVertexArray(0);
+
+
+		//D5
+		modelH7 = glm::mat4(1);
+		modelH7 = glm::scale(modelH7, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH7 = glm::translate(modelH7, glm::vec3(handPosX - 50, handPosY, handPosZ+50));
+		modelH7 = glm::rotate(modelH7, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH7 = glm::rotate(modelH7, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH7 = glm::rotate(modelH7, glm::radians(handD5RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH7));
+		HandD5.Draw(lightingShader);
+		glBindVertexArray(0);
+
+
+		//Hand8
+		glm::mat4 modelH8(1);
+
+		modelH8 = glm::mat4(1);
+		modelH8 = glm::scale(modelH8, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH8 = glm::translate(modelH8, glm::vec3(handPosX - 70, handPosY, handPosZ+50));
+		modelH8 = glm::rotate(modelH8, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH8 = glm::rotate(modelH8, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH8));
+		Hand.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//D1
+		modelH8 = glm::mat4(1);
+		modelH8 = glm::scale(modelH8, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH8 = glm::translate(modelH8, glm::vec3(handPosX - 70, handPosY, handPosZ+50));
+		modelH8 = glm::rotate(modelH8, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH8 = glm::rotate(modelH8, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH8 = glm::rotate(modelH8, glm::radians(handD1RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH8));
+		HandD1.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//D2
+		modelH8 = glm::mat4(1);
+		modelH8 = glm::scale(modelH8, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH8 = glm::translate(modelH8, glm::vec3(handPosX - 70, handPosY, handPosZ+50));
+		modelH8 = glm::rotate(modelH8, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH8 = glm::rotate(modelH8, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH8 = glm::rotate(modelH8, glm::radians(handD2RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH8));
+		HandD2.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//D3
+		modelH8 = glm::mat4(1);
+		modelH8 = glm::scale(modelH8, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH8 = glm::translate(modelH8, glm::vec3(handPosX - 70, handPosY, handPosZ+50));
+		modelH8 = glm::rotate(modelH8, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH8 = glm::rotate(modelH8, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH8 = glm::rotate(modelH8, glm::radians(handD3RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH8));
+		HandD3.Draw(lightingShader);
+		glBindVertexArray(0);
+
+		//D4
+		modelH8 = glm::mat4(1);
+		modelH8 = glm::scale(modelH8, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH8 = glm::translate(modelH8, glm::vec3(handPosX - 70, handPosY, handPosZ+50));
+		modelH8 = glm::rotate(modelH8, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH8 = glm::rotate(modelH8, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH8 = glm::rotate(modelH8, glm::radians(handD4RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH8));
+		HandD4.Draw(lightingShader);
+		glBindVertexArray(0);
+
+
+		//D5
+		modelH8 = glm::mat4(1);
+		modelH8 = glm::scale(modelH8, glm::vec3(0.2f, 0.2f, 0.2f));
+		modelH8 = glm::translate(modelH8, glm::vec3(handPosX - 70, handPosY, handPosZ+50));
+		modelH8 = glm::rotate(modelH8, glm::radians(handRot), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelH8 = glm::rotate(modelH8, glm::radians(handRotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		modelH8 = glm::rotate(modelH8, glm::radians(handD5RotZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelH8));
+		HandD5.Draw(lightingShader);
+		glBindVertexArray(0);
 		
 
 
