@@ -663,8 +663,8 @@ void LoadKeyFramesRobotFromFile(const std::string& filename) {
 		std::cerr << "Error al abrir el archivo para cargar los keyframes: " << filename << std::endl;
 		return;
 	}
-	inFile >> FrameIndexHand;
-	for (int i = 0; i < FrameIndexHand; ++i) {
+	inFile >> FrameIndexRobot;
+	for (int i = 0; i < FrameIndexRobot; ++i) {
 		inFile >> KeyFrameRobot[i].cabezaRot
 			>> KeyFrameRobot[i].brazoDRX
 			>> KeyFrameRobot[i].brazoDRY
