@@ -136,8 +136,20 @@ float handD3RotZ = 0.0f;
 float handD4RotZ = 0.0f;
 float handD5RotZ = 0.0f;
 
-
-
+//Robot 
+float cabezaRot = 0.0f;	
+float brazoDRX = 0.0f;
+float brazoDRY = 0.0f;
+float brazoDRZ = 0.0f;
+float brazoIRX = 0.0f;
+float brazoIRY = 0.0f;
+float brazoIRZ = 0.0f;
+float piernaDRX = 0.0f;
+float piernaDRY = 0.0f;
+float piernaDRZ = 0.0f;
+float piernaIRX = 0.0f;
+float piernaIRY = 0.0f;
+float piernaIRZ = 0.0f;
 
 // Deltatime
 GLfloat deltaTime = 0.0f;	// Time between current frame and last frame
@@ -150,8 +162,8 @@ float dogPosX, dogPosY, dogPosZ;
 float dronPosX, dronPosY, dronPosZ;
 //Hand
 float handPosX, handPosY, handPosZ;
-#define MAX_FRAMES 90
-int i_max_steps = 190;
+#define MAX_FRAMES 150
+int i_max_steps = 2500;
 int i_curr_steps = 0;
 typedef struct _frame {
 
@@ -165,6 +177,8 @@ typedef struct _frame {
 	float dogIncZ;
 	float head;
 	float headInc;
+	float robot;
+	float robotInc;
 
 	
 
@@ -213,14 +227,47 @@ typedef struct _framehand {
 	float handD5RotZInc;
 
 }FRAMEHAND;
+//robot
+typedef struct _framerobot {
+	float cabezaRot;
+	float brazoDRX;
+	float brazoDRY;
+	float brazoDRZ;
+	float brazoIRX;
+	float brazoIRY;
+	float brazoIRZ;
+	float piernaDRX;
+	float piernaDRY;
+	float piernaDRZ;
+	float piernaIRX;
+	float piernaIRY;
+	float piernaIRZ;
+
+	float cabezaRotInc;
+	float brazoDRXInc;
+	float brazoDRYInc;
+	float brazoDRZInc;
+	float brazoIRXInc;
+	float brazoIRYInc;
+	float brazoIRZInc;
+	float piernaDRXInc;
+	float piernaDRYInc;
+	float piernaDRZInc;
+	float piernaIRXInc;
+	float piernaIRYInc;
+	float piernaIRZInc;
+}FRAMEROBOT;
+
 
 
 FRAME KeyFrame[MAX_FRAMES];
 FRAMEDRON KeyFrameDron[MAX_FRAMES];
 FRAMEHAND KeyFrameHand[MAX_FRAMES];
+FRAMEROBOT KeyFrameRobot[MAX_FRAMES];
 int FrameIndex = 0;			//introducir datos
 int FrameIndexHand = 0;	//introducir datos
 int FrameIndexDron = 0;	//introducir datos
+int FrameIndexRobot = 0;	//introducir datos
 
 bool play = false;
 int playIndex = 0;
@@ -238,7 +285,6 @@ void saveFrame(void)
 
 	KeyFrame[FrameIndex].rotDog = rotDog;
 	KeyFrame[FrameIndex].head = head;
-
 	
 
 
@@ -279,6 +325,26 @@ void saveFrameHand(void)
 	KeyFrameHand[FrameIndexHand].handD5RotZ = handD5RotZ;
 
 	FrameIndexHand++;
+}
+
+void saveFrameRobot(void)
+{
+	printf("frameindexrobot %d\n", FrameIndexRobot);
+	KeyFrameRobot[FrameIndexRobot].cabezaRot = cabezaRot;
+	KeyFrameRobot[FrameIndexRobot].brazoDRX = brazoDRX;
+	KeyFrameRobot[FrameIndexRobot].brazoDRY = brazoDRY;
+	KeyFrameRobot[FrameIndexRobot].brazoDRZ = brazoDRZ;
+	KeyFrameRobot[FrameIndexRobot].brazoIRX = brazoIRX;
+	KeyFrameRobot[FrameIndexRobot].brazoIRY = brazoIRY;
+	KeyFrameRobot[FrameIndexRobot].brazoIRZ = brazoIRZ;
+	KeyFrameRobot[FrameIndexRobot].piernaDRX = piernaDRX;
+	KeyFrameRobot[FrameIndexRobot].piernaDRY = piernaDRY;
+	KeyFrameRobot[FrameIndexRobot].piernaDRZ = piernaDRZ;
+	KeyFrameRobot[FrameIndexRobot].piernaIRX = piernaIRX;
+	KeyFrameRobot[FrameIndexRobot].piernaIRY = piernaIRY;
+	KeyFrameRobot[FrameIndexRobot].piernaIRZ = piernaIRZ;
+
+	FrameIndexRobot++;
 }
 
 void SaveKeyFramesToFile(const std::string & filename) {
@@ -344,6 +410,32 @@ void SaveKeyFramesHandToFile(const std::string& filename) {
 	outFile.close();
 	std::cout << "Keyframes guardados correctamente en el archivo: " << filename << std::endl;
 }
+//Robot
+void SaveKeyFramesRobotToFile(const std::string& filename) {
+	std::ofstream outFile(filename);
+	if (!outFile.is_open()) {
+		std::cerr << "Error al abrir el archivo para guardar los keyframes: " << filename << std::endl;
+		return;
+	}
+	outFile << FrameIndexRobot << std::endl;
+	for (int i = 0; i < FrameIndexRobot; ++i) {
+		outFile << KeyFrameRobot[i].cabezaRot << " "
+			<< KeyFrameRobot[i].brazoDRX << " "
+			<< KeyFrameRobot[i].brazoDRY << " "
+			<< KeyFrameRobot[i].brazoDRZ << " "
+			<< KeyFrameRobot[i].brazoIRX << " "
+			<< KeyFrameRobot[i].brazoIRY << " "
+			<< KeyFrameRobot[i].brazoIRZ << " "
+			<< KeyFrameRobot[i].piernaDRX << " "
+			<< KeyFrameRobot[i].piernaDRY << " "
+			<< KeyFrameRobot[i].piernaDRZ << " "
+			<< KeyFrameRobot[i].piernaIRX << " "
+			<< KeyFrameRobot[i].piernaIRY << " "
+			<< KeyFrameRobot[i].piernaIRZ << std::endl;
+	}
+	outFile.close();
+	std::cout << "Keyframes guardados correctamente en el archivo: " << filename << std::endl;
+}
 
 
 void resetElements(void)
@@ -370,6 +462,20 @@ void resetElements(void)
 	handD3RotZ = KeyFrameHand[0].handD3RotZ;
 	handD4RotZ = KeyFrameHand[0].handD4RotZ;
 	handD5RotZ = KeyFrameHand[0].handD5RotZ;
+
+	cabezaRot = KeyFrameRobot[0].cabezaRot;
+	brazoDRX = KeyFrameRobot[0].brazoDRX;
+	brazoDRY = KeyFrameRobot[0].brazoDRY;
+	brazoDRZ = KeyFrameRobot[0].brazoDRZ;
+	brazoIRX = KeyFrameRobot[0].brazoIRX;
+	brazoIRY = KeyFrameRobot[0].brazoIRY;
+	brazoIRZ = KeyFrameRobot[0].brazoIRZ;
+	piernaDRX = KeyFrameRobot[0].piernaDRX;
+	piernaDRY = KeyFrameRobot[0].piernaDRY;
+	piernaDRZ = KeyFrameRobot[0].piernaDRZ;
+	piernaIRX = KeyFrameRobot[0].piernaIRX;
+	piernaIRY = KeyFrameRobot[0].piernaIRY;
+	piernaIRZ = KeyFrameRobot[0].piernaIRZ;
 
 
 }
@@ -399,6 +505,21 @@ void interpolation(void)
 	KeyFrameHand[playIndex].handD3RotZInc = (KeyFrameHand[playIndex + 1].handD3RotZ - KeyFrameHand[playIndex].handD3RotZ) / i_max_steps;
 	KeyFrameHand[playIndex].handD4RotZInc = (KeyFrameHand[playIndex + 1].handD4RotZ - KeyFrameHand[playIndex].handD4RotZ) / i_max_steps;
 	KeyFrameHand[playIndex].handD5RotZInc = (KeyFrameHand[playIndex + 1].handD5RotZ - KeyFrameHand[playIndex].handD5RotZ) / i_max_steps;
+
+	KeyFrameRobot[playIndex].cabezaRotInc = (KeyFrameRobot[playIndex + 1].cabezaRot - KeyFrameRobot[playIndex].cabezaRot) / i_max_steps;
+	KeyFrameRobot[playIndex].brazoDRXInc = (KeyFrameRobot[playIndex + 1].brazoDRX - KeyFrameRobot[playIndex].brazoDRX) / i_max_steps;
+	KeyFrameRobot[playIndex].brazoDRYInc = (KeyFrameRobot[playIndex + 1].brazoDRY - KeyFrameRobot[playIndex].brazoDRY) / i_max_steps;
+	KeyFrameRobot[playIndex].brazoDRZInc = (KeyFrameRobot[playIndex + 1].brazoDRZ - KeyFrameRobot[playIndex].brazoDRZ) / i_max_steps;
+	KeyFrameRobot[playIndex].brazoIRXInc = (KeyFrameRobot[playIndex + 1].brazoIRX - KeyFrameRobot[playIndex].brazoIRX) / i_max_steps;
+	KeyFrameRobot[playIndex].brazoIRYInc = (KeyFrameRobot[playIndex + 1].brazoIRY - KeyFrameRobot[playIndex].brazoIRY) / i_max_steps;
+	KeyFrameRobot[playIndex].brazoIRZInc = (KeyFrameRobot[playIndex + 1].brazoIRZ - KeyFrameRobot[playIndex].brazoIRZ) / i_max_steps;
+	KeyFrameRobot[playIndex].piernaDRXInc = (KeyFrameRobot[playIndex + 1].piernaDRX - KeyFrameRobot[playIndex].piernaDRX) / i_max_steps;
+	KeyFrameRobot[playIndex].piernaDRYInc = (KeyFrameRobot[playIndex + 1].piernaDRY - KeyFrameRobot[playIndex].piernaDRY) / i_max_steps;
+	KeyFrameRobot[playIndex].piernaDRZInc = (KeyFrameRobot[playIndex + 1].piernaDRZ - KeyFrameRobot[playIndex].piernaDRZ) / i_max_steps;
+	KeyFrameRobot[playIndex].piernaIRXInc = (KeyFrameRobot[playIndex + 1].piernaIRX - KeyFrameRobot[playIndex].piernaIRX) / i_max_steps;
+	KeyFrameRobot[playIndex].piernaIRYInc = (KeyFrameRobot[playIndex + 1].piernaIRY - KeyFrameRobot[playIndex].piernaIRY) / i_max_steps;
+	KeyFrameRobot[playIndex].piernaIRZInc = (KeyFrameRobot[playIndex + 1].piernaIRZ - KeyFrameRobot[playIndex].piernaIRZ) / i_max_steps;
+
 
 }
 
@@ -484,6 +605,38 @@ void LoadKeyFramesHandFromFile(const std::string& filename) {
 	}
 }
 
+void LoadKeyFramesRobotFromFile(const std::string& filename) {
+	std::ifstream inFile(filename);
+	if (!inFile.is_open()) {
+		std::cerr << "Error al abrir el archivo para cargar los keyframes: " << filename << std::endl;
+		return;
+	}
+	inFile >> FrameIndexHand;
+	for (int i = 0; i < FrameIndexHand; ++i) {
+		inFile >> KeyFrameRobot[i].cabezaRot
+			>> KeyFrameRobot[i].brazoDRX
+			>> KeyFrameRobot[i].brazoDRY
+			>> KeyFrameRobot[i].brazoDRZ
+			>> KeyFrameRobot[i].brazoIRX
+			>> KeyFrameRobot[i].brazoIRY
+			>> KeyFrameRobot[i].brazoIRZ
+			>> KeyFrameRobot[i].piernaDRX
+			>> KeyFrameRobot[i].piernaDRY
+			>> KeyFrameRobot[i].piernaDRZ
+			>> KeyFrameRobot[i].piernaIRX
+			>> KeyFrameRobot[i].piernaIRY
+			>> KeyFrameRobot[i].piernaIRZ;
+			
+	}
+	inFile.close();
+	std::cout << "Keyframes cargados correctamente desde el archivo: " << filename << std::endl;
+	// Inicializar elementos y preparar la primera interpolaci?n
+
+	if (FrameIndexRobot > 1) {
+		resetElements();  // Restablece los elementos al primer keyframe
+		interpolation();  // Prepara la interpolaci?n para la animaci?n
+	}
+}
 void ResetKeyFrames(void)
 {
 	for (int i = 0; i < MAX_FRAMES; i++)
@@ -532,6 +685,35 @@ void ResetKeyFrames(void)
 		KeyFrameHand[i].handD3RotZInc = 0;
 		KeyFrameHand[i].handD4RotZInc = 0;
 		KeyFrameHand[i].handD5RotZInc = 0;
+
+		KeyFrameRobot[i].cabezaRot = 0;
+		KeyFrameRobot[i].brazoDRX = 0;
+		KeyFrameRobot[i].brazoDRY = 0;
+		KeyFrameRobot[i].brazoDRZ = 0;
+		KeyFrameRobot[i].brazoIRX = 0;
+		KeyFrameRobot[i].brazoIRY = 0;
+		KeyFrameRobot[i].brazoIRZ = 0;
+		KeyFrameRobot[i].piernaDRX = 0;
+		KeyFrameRobot[i].piernaDRY = 0;
+		KeyFrameRobot[i].piernaDRZ = 0;
+		KeyFrameRobot[i].piernaIRX = 0;
+		KeyFrameRobot[i].piernaIRY = 0;
+		KeyFrameRobot[i].piernaIRZ = 0;
+
+		KeyFrameRobot[i].cabezaRotInc = 0;
+		KeyFrameRobot[i].brazoDRXInc = 0;
+		KeyFrameRobot[i].brazoDRYInc = 0;
+		KeyFrameRobot[i].brazoDRZInc = 0;
+		KeyFrameRobot[i].brazoIRXInc = 0;
+		KeyFrameRobot[i].brazoIRYInc = 0;
+		KeyFrameRobot[i].brazoIRZInc = 0;
+		KeyFrameRobot[i].piernaDRXInc = 0;
+		KeyFrameRobot[i].piernaDRYInc = 0;
+		KeyFrameRobot[i].piernaDRZInc = 0;
+		KeyFrameRobot[i].piernaIRXInc = 0;
+		KeyFrameRobot[i].piernaIRYInc = 0;
+		KeyFrameRobot[i].piernaIRZInc = 0;
+
 	}
 }
 
@@ -594,13 +776,9 @@ int main()
 
 	Model dron((char*)"Models/DronT2.obj");
 	//robot
-	Model antebrazoD((char*)"Models/antebrazoD.obj");
-	Model antebrazoI((char*)"Models/antebrazoI.obj");
 	Model brazoD((char*)"Models/brazoD.obj");
 	Model brazoI((char*)"Models/brazoI.obj");
 	Model cabeza((char*)"Models/Cabeza.obj");
-	Model pieD((char*)"Models/pieD.obj");
-	Model pieI((char*)"Models/pieI.obj");
 	Model piernaD((char*)"Models/piernaD.obj");
 	Model piernaI((char*)"Models/piernaI.obj");
 	Model torzo((char*)"Models/torzo.obj");
@@ -859,84 +1037,66 @@ int main()
 		glBindVertexArray(0);
 
 		//Robot 
-		//Antebrazo derecho 
-		glm::mat4 modelRAD(1);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelRAD));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
-		antebrazoD.Draw(lightingShader);
-		glBindVertexArray(0);
-
-		//Antebrazo izquierdo 
-		glm::mat4 modelRAI(1);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelRAI));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
-		antebrazoI.Draw(lightingShader);
-		glBindVertexArray(0);
 
 		//Brazo derecho 
 		glm::mat4 modelRBD(1);
+		//modelRBD = glm::translate(modelRBD, glm::vec3(12.808f, 0.614f, 11.853f));
+		modelRBD = glm::rotate(model, glm::radians(brazoDRX), glm::vec3(1.0f, 0.0f, 0.0f));
+		modelRBD = glm::rotate(model, glm::radians(brazoDRY), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelRBD = glm::rotate(model, glm::radians(brazoDRZ), glm::vec3(0.0f, 0.0f, 1.0f));
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelRBD));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
 		brazoD.Draw(lightingShader);
 		glBindVertexArray(0);
 
 		//Brazo Izquierdo 
 		glm::mat4 modelRBI(1);
+		//modelRBI = glm::translate(modelRBI, glm::vec3(-17.934f, 0.711f, 0.864f));
+		modelRBI = glm::rotate(model, glm::radians(brazoIRX), glm::vec3(1.0f, 0.0f, 0.0f));
+		modelRBI = glm::rotate(model, glm::radians(brazoIRY), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelRBI = glm::rotate(model, glm::radians(brazoIRZ), glm::vec3(0.0f, 0.0f, 1.0f));
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelRBI));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
 		brazoI.Draw(lightingShader);
 		glBindVertexArray(0);
 
 		//Cabeza
 		glm::mat4 modelRC(1);
+		//modelRC = glm::translate(modelRC, glm::vec3(0.0f, 0.0f, 0.0f));
+		modelRC = glm::rotate(modelRC, glm::radians(cabezaRot), glm::vec3(1.0f, 0.0f, 0.0f));
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelRC));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
 		cabeza.Draw(lightingShader);
 		glBindVertexArray(0);
 
-		//PieD 
-		glm::mat4 modelRPD(1);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelRPD));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
-		pieD.Draw(lightingShader);
-		glBindVertexArray(0);
-
-		//PieI
-		glm::mat4 modelRPI(1);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelRPI));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
-		pieI.Draw(lightingShader);
-		glBindVertexArray(0);
 
 		//PiernaD 
 		glm::mat4 modelRPRD(1);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//modelRPRD = glm::translate(modelRPRD, glm::vec3(-18.363f, 3.178f, 12.881f));
+		modelRPRD = glm::rotate(model, glm::radians(piernaDRX), glm::vec3(1.0f, 0.0f, 0.0f));
+		modelRPRD = glm::rotate(model, glm::radians(piernaDRY), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelRPRD = glm::rotate(model, glm::radians(piernaDRZ), glm::vec3(0.0f, 0.0f, 1.0f));
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelRPRD));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
 		piernaD.Draw(lightingShader);
 		glBindVertexArray(0);
 
 		//Pierna izquierda 
 		glm::mat4 modelRPRI(1);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		modelRPRI = glm::rotate(model, glm::radians(piernaIRX), glm::vec3(1.0f, 0.0f, 0.0f));
+		modelRPRI = glm::rotate(model, glm::radians(piernaIRY), glm::vec3(0.0f, 1.0f, 0.0f));
+		modelRPRI = glm::rotate(model, glm::radians(piernaIRZ), glm::vec3(0.0f, 0.0f, 1.0f));
+		//modelRPRI = glm::translate(modelRPRI, glm::vec3(-17.691f, 0.588f, -11.66f)); 
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelRPRI));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
 		piernaI.Draw(lightingShader);
 		glBindVertexArray(0);
 
 		//Torzo
 		glm::mat4 modelRT(1);
-		modelRT = glm::translate(modelRT, glm::vec3(0.0f, 0.0f, 0.0f));
+		//modelRT = glm::translate(modelRT, glm::vec3(-18.363f, 3.178f, 12.881f));
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(modelRT));
-		glUniform1i(glGetUniformLocation(lightingShader.Program, "transparency"), 0);
 		torzo.Draw(lightingShader);
 		glBindVertexArray(0);
 
@@ -1054,71 +1214,71 @@ void DoMovement()
 
 	}*/
 
-	if (keys[GLFW_KEY_1])
-	{
-		//rotDog += 1.0f;
-		handD1RotZ += 1.0f;
+	//if (keys[GLFW_KEY_1])
+	//{
+	//	//rotDog += 1.0f;
+	//	handD1RotZ += 1.0f;
 
-	}
+	//}
 
-	if (keys[GLFW_KEY_2])
-	{
+	//if (keys[GLFW_KEY_2])
+	//{
 
-		
-		//rotDog += 1.0f;
+	//	
+	//	//rotDog += 1.0f;
 
-		handD1RotZ -= 1.0f;
+	//	handD1RotZ -= 1.0f;
 
 
-	}
+	//}
 
-	if (keys[GLFW_KEY_3])
-	{
-		//rotDog += 1.0f;
-		handD2RotZ += 1.0f;
-	}
+	//if (keys[GLFW_KEY_3])
+	//{
+	//	//rotDog += 1.0f;
+	//	handD2RotZ += 1.0f;
+	//}
 
-	if (keys[GLFW_KEY_4])
-	{
-		//rotDog += 1.0f;
-		handD2RotZ -= 1.0f;
-	}
+	//if (keys[GLFW_KEY_4])
+	//{
+	//	//rotDog += 1.0f;
+	//	handD2RotZ -= 1.0f;
+	//}
 
-	if (keys[GLFW_KEY_5])
-	{
-		//rotDog += 1.0f;
-		handD3RotZ += 1.0f;
-	}
+	//if (keys[GLFW_KEY_5])
+	//{
+	//	//rotDog += 1.0f;
+	//	handD3RotZ += 1.0f;
+	//}
 
-	if (keys[GLFW_KEY_6])
-	{
-		//rotDog += 1.0f;
-		handD3RotZ -= 1.0f;
-	}
+	//if (keys[GLFW_KEY_6])
+	//{
+	//	//rotDog += 1.0f;
+	//	handD3RotZ -= 1.0f;
+	//}
 
-	if (keys[GLFW_KEY_7])
-	{
-		//rotDog += 1.0f;
-		handD4RotZ += 1.0f;
-	}
+	//if (keys[GLFW_KEY_7])
+	//{
+	//	//rotDog += 1.0f;
+	//	handD4RotZ += 1.0f;
+	//}
 
-	if (keys[GLFW_KEY_8])
-	{
-		//rotDog += 1.0f;
-		handD4RotZ -= 1.0f;
-	}
+	//if (keys[GLFW_KEY_8])
+	//{
+	//	//rotDog += 1.0f;
+	//	handD4RotZ -= 1.0f;
+	//}
 
-	if (keys[GLFW_KEY_9])
-	{
-		//rotDog += 1.0f;
-		handD5RotZ += 1.0f;
-	}
+	//if (keys[GLFW_KEY_9])
+	//{
+	//	//rotDog += 1.0f;
+	//	handD5RotZ += 1.0f;
+	//}
 
-	if (keys[GLFW_KEY_0])
-	{
-		//rotDog += 1.0f;
-		handD5RotZ -= 1.0f;
-	}
+	//if (keys[GLFW_KEY_0])
+	//{
+	//	//rotDog += 1.0f;
+	//	handD5RotZ -= 1.0f;
+	//}
 
 	if (keys[GLFW_KEY_V])
 	{
@@ -1204,7 +1364,68 @@ void DoMovement()
 		//dronRot -= 1.0f;
 		handRot -= 1.0f;
 	}
+	//Robot 
 
+	if (keys[GLFW_KEY_0])
+	{
+		//cabeza;
+		cabezaRot += 0.5f;
+	}
+	if (keys[GLFW_KEY_1])
+	{
+		//cabeza;
+		cabezaRot -= 0.5f;
+	}
+	if (keys[GLFW_KEY_2])
+	{
+		//brazos;
+		 brazoDRY+= 0.5f;
+		 brazoIRY += 0.5f;
+	}
+	if (keys[GLFW_KEY_3])
+	{
+		//brazos;
+		brazoDRY -= 0.5f;
+		brazoIRY -= 0.5f;
+	}
+	if (keys[GLFW_KEY_4])
+	{
+		//brazos;
+		brazoDRX += 0.5f;
+		brazoIRX -= 0.5f;
+	}
+	if (keys[GLFW_KEY_5])
+	{
+		//brazos;
+		brazoDRZ += 0.5f;
+		brazoIRZ -= 0.5f;
+	}
+	if (keys[GLFW_KEY_6])
+	{
+		//Píerna;
+		piernaDRY += 0.5f;
+		piernaIRY += 0.5f;
+	}
+	if (keys[GLFW_KEY_7])
+	{
+		//Píerna;
+		piernaDRZ += 0.5f;
+	}
+	if (keys[GLFW_KEY_8])
+	{
+		//Píerna;
+		piernaIRZ += 0.5f;
+	}
+	if (keys[GLFW_KEY_9])
+	{
+		//Píerna;
+		piernaDRZ -= 0.5f;
+	}
+	if (keys[GLFW_KEY_H])
+	{
+		//Píerna;
+		piernaIRZ -= 0.5f;
+	}
 
 
 	// Camera controls
@@ -1289,7 +1510,7 @@ void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode
 {
 	if (keys[GLFW_KEY_L])
 	{
-		if (play == false && (FrameIndex > 1) && (FrameIndexDron > 1) && (FrameIndexHand > 1))
+		if (play == false && (FrameIndex > 1) && (FrameIndexDron > 1) && (FrameIndexHand > 1) && (FrameIndexRobot > 1))
 		{
 
 			resetElements();
@@ -1329,6 +1550,17 @@ void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode
 		//Hand
 		saveFrameHand();
 		SaveKeyFramesHandToFile("keyframeshand.dat");
+	}
+	//Robot 
+	if (keys[GLFW_KEY_P])
+	{
+		//Dog
+		//saveFrame();
+		//SaveKeyFramesToFile("keyframes.dat");
+
+		//Hand
+		saveFrameRobot();
+		SaveKeyFramesRobotToFile("keyframesrobot.dat");
 	}
 
 	if (GLFW_KEY_ESCAPE == key && GLFW_PRESS == action)
@@ -1393,7 +1625,7 @@ void Animation() {
 		if (i_curr_steps >= i_max_steps) //end of animation between frames?
 		{
 			playIndex++;
-			if (playIndex > FrameIndex - 2 && playIndex > FrameIndexDron - 2 && playIndex > FrameIndexHand - 2)	//end of total animation?
+			if (playIndex > FrameIndex - 2 && playIndex > FrameIndexDron - 2 && playIndex > FrameIndexHand - 2 && playIndex > FrameIndexRobot - 2)	//end of total animation?
 			{
 				printf("termina anim\n");
 				playIndex = 0;
@@ -1431,6 +1663,21 @@ void Animation() {
 			handD3RotZ += KeyFrameHand[playIndex].handD3RotZInc;
 			handD4RotZ += KeyFrameHand[playIndex].handD4RotZInc;
 			handD5RotZ += KeyFrameHand[playIndex].handD5RotZInc;
+
+			brazoDRX += KeyFrameRobot[playIndex].brazoDRXInc;
+			brazoDRY += KeyFrameRobot[playIndex].brazoDRYInc;
+			brazoDRZ += KeyFrameRobot[playIndex].brazoDRZInc;
+			brazoIRX += KeyFrameRobot[playIndex].brazoIRXInc;
+			brazoIRY += KeyFrameRobot[playIndex].brazoIRYInc;
+			brazoIRZ += KeyFrameRobot[playIndex].brazoIRZInc;
+			cabezaRot += KeyFrameRobot[playIndex].cabezaRotInc;
+			piernaDRX += KeyFrameRobot[playIndex].piernaDRXInc;
+			piernaDRY += KeyFrameRobot[playIndex].piernaDRYInc;
+			piernaDRZ += KeyFrameRobot[playIndex].piernaDRZInc;
+			piernaIRX += KeyFrameRobot[playIndex].piernaIRXInc;
+			piernaIRY += KeyFrameRobot[playIndex].piernaIRYInc;
+			piernaIRZ += KeyFrameRobot[playIndex].piernaIRZInc;
+
 
 			i_curr_steps++;
 		}
