@@ -41,8 +41,8 @@ const GLuint WIDTH = 1280, HEIGHT = 720;
 int SCREEN_WIDTH, SCREEN_HEIGHT;
 
 // Camera
-Camera  camera(glm::vec3(0.0f, 0.0f, 3.0f));
-CameraVR cameraVR(glm::vec3(0.0f, 0.0f, 3.0f));
+Camera  camera(glm::vec3(0.0f, 7.0f, 3.0f));
+CameraVR cameraVR(glm::vec3(0.0f, 7.0f, 3.0f));
 
 
 
@@ -617,7 +617,7 @@ void UpdateAssembling() {
 
 	// Cuando llegue al 100%, detener la animación
 	if (assembleProgress >= 1.0f) {
-		assemblingRobot = false;
+		//assemblingRobot = false;
 		assembleProgress = 1.0f;
 	}
 }
@@ -970,7 +970,13 @@ int main()
 
 		// Create camera transformations
 		glm::mat4 view;
-		view = camera.GetViewMatrix();
+
+		if (activeCamera) {
+			view = camera.GetViewMatrix();
+		}
+		else {
+			view = cameraVR.GetViewMatrix();
+		}
 
 		// Get the uniform locations
 		GLint modelLoc = glGetUniformLocation(lightingShader.Program, "model");
@@ -2309,19 +2315,19 @@ void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mode
 		activeCamera = !activeCamera;
 	}
 
-	if (key == GLFW_KEY_Z && action == GLFW_PRESS) {
-		if (!assemblingRobot) {
-			assemblingRobot = true;
-			assembleProgress = 0.0f;
-			// Resetear posiciones a las iniciales
-			currentBrazoDPos = initialBrazoDPos;
-			currentBrazoIPos = initialBrazoIPos;
-			currentPiernaDPos = initialPiernaDPos;
-			currentPiernaIPos = initialPiernaIPos;
-			currentTorzoPos = initialTorzoPos;
-			currentCabezaPos = initialCabezaPos;
-		}
-	}
+	//if (key == GLFW_KEY_Z && action == GLFW_PRESS) {
+	//	if (!assemblingRobot) {
+	//		assemblingRobot = true;
+	//		assembleProgress = 0.0f;
+	//		// Resetear posiciones a las iniciales
+	//		currentBrazoDPos = initialBrazoDPos;
+	//		currentBrazoIPos = initialBrazoIPos;
+	//		currentPiernaDPos = initialPiernaDPos;
+	//		currentPiernaIPos = initialPiernaIPos;
+	//		currentTorzoPos = initialTorzoPos;
+	//		currentCabezaPos = initialCabezaPos;
+	//	}
+	//}
 }
 //void Animation() {
 //	if (AnimBall)
@@ -2422,6 +2428,18 @@ void Animation() {
 				deskProgress2 = 1.0f;
 			}
 			
+		}
+
+		if (!assemblingRobot) {
+			assemblingRobot = true;
+			assembleProgress = 0.0f;
+			// Resetear posiciones a las iniciales
+			currentBrazoDPos = initialBrazoDPos;
+			currentBrazoIPos = initialBrazoIPos;
+			currentPiernaDPos = initialPiernaDPos;
+			currentPiernaIPos = initialPiernaIPos;
+			currentTorzoPos = initialTorzoPos;
+			currentCabezaPos = initialCabezaPos;
 		}
 		
 

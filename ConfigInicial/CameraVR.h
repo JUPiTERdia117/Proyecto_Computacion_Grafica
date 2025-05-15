@@ -66,10 +66,10 @@ public:
 
 			glm::vec3 upFront = this->position + this->front * velocity;
 
-			if ((upFront).z > -5.0f && (upFront).z <5.0f && (upFront).x>-5.0f && (upFront).x<5.0f) {
+			if ((upFront).z > -15.0f && (upFront).z <15.0f && (upFront).x>-15.0f && (upFront).x<15.0f) {
 				this->position += this->front * velocity;
 
-				this->position.y = 0;
+				this->position.y = 7;
 
 			}
 
@@ -80,10 +80,10 @@ public:
 		{
 			glm::vec3 backFront = this->position - this->front * velocity;
 
-			if ((backFront).z > -5.0f && (backFront).z <5.0f && (backFront).x>-5.0f && (backFront).x < 5.0f) {
+			if ((backFront).z > -15.0f && (backFront).z <15.0f && (backFront).x>-15.0f && (backFront).x < 15.0f) {
 				this->position -= this->front * velocity;
 
-				this->position.y = 0;
+				this->position.y = 7;
 
 			}
 
@@ -94,9 +94,9 @@ public:
 		{
 			glm::vec3 lRight = this->position - this->front * velocity;
 
-			if ((lRight).z > -5.0f && (lRight).z <5.0f && (lRight).x>-5.0f && (lRight).x < 5.0f) {
+			if ((lRight).z > -15.0f && (lRight).z <15.0f && (lRight).x>-15.0f && (lRight).x < 15.0f) {
 				this->position -= this->right * velocity;
-				this->position.y = 0;
+				this->position.y = 7;
 			}
 
 			
@@ -105,9 +105,9 @@ public:
 		if (direction == RIGHTVR)
 		{
 			glm::vec3 rRight = this->position + this->front * velocity;
-			if ((rRight).z > -5.0f && (rRight).z <5.0f && (rRight).x>-5.0f && (rRight).x < 5.0f) {
+			if ((rRight).z > -15.0f && (rRight).z <15.0f && (rRight).x>-15.0f && (rRight).x < 15.0f) {
 				this->position += this->right * velocity;
-				this->position.y = 0;
+				this->position.y = 7;
 			}
 			
 		}
