@@ -525,17 +525,23 @@ void interpolation(void)
 	KeyFrameDron[playIndex].dronIncZ = (KeyFrameDron[playIndex + 1].dronPosZ - KeyFrameDron[playIndex].dronPosZ) / i_max_steps;
 	KeyFrameDron[playIndex].dronRotInc = (KeyFrameDron[playIndex + 1].dronRot - KeyFrameDron[playIndex].dronRot) / i_max_steps;
 
+	
+	
 
-	KeyFrameHand[playIndex].handIncX = (KeyFrameHand[playIndex + 1].handPosX - KeyFrameHand[playIndex].handPosX) / i_max_steps;
-	KeyFrameHand[playIndex].handIncY = (KeyFrameHand[playIndex + 1].handPosY - KeyFrameHand[playIndex].handPosY) / i_max_steps;
-	KeyFrameHand[playIndex].handIncZ = (KeyFrameHand[playIndex + 1].handPosZ - KeyFrameHand[playIndex].handPosZ) / i_max_steps;
-	KeyFrameHand[playIndex].handRotInc = (KeyFrameHand[playIndex + 1].handRot - KeyFrameHand[playIndex].handRot) / i_max_steps;
-	KeyFrameHand[playIndex].handRotZInc = (KeyFrameHand[playIndex + 1].handRotZ - KeyFrameHand[playIndex].handRotZ) / i_max_steps;
-	KeyFrameHand[playIndex].handD1RotZInc = (KeyFrameHand[playIndex + 1].handD1RotZ - KeyFrameHand[playIndex].handD1RotZ) / i_max_steps;
-	KeyFrameHand[playIndex].handD2RotZInc = (KeyFrameHand[playIndex + 1].handD2RotZ - KeyFrameHand[playIndex].handD2RotZ) / i_max_steps;
-	KeyFrameHand[playIndex].handD3RotZInc = (KeyFrameHand[playIndex + 1].handD3RotZ - KeyFrameHand[playIndex].handD3RotZ) / i_max_steps;
-	KeyFrameHand[playIndex].handD4RotZInc = (KeyFrameHand[playIndex + 1].handD4RotZ - KeyFrameHand[playIndex].handD4RotZ) / i_max_steps;
-	KeyFrameHand[playIndex].handD5RotZInc = (KeyFrameHand[playIndex + 1].handD5RotZ - KeyFrameHand[playIndex].handD5RotZ) / i_max_steps;
+	if (KeyFrameHand[playIndex + 1].handPosX != 0)
+	{
+		KeyFrameHand[playIndex].handIncX = (KeyFrameHand[playIndex + 1].handPosX - KeyFrameHand[playIndex].handPosX) / i_max_steps;
+		KeyFrameHand[playIndex].handIncY = (KeyFrameHand[playIndex + 1].handPosY - KeyFrameHand[playIndex].handPosY) / i_max_steps;
+		KeyFrameHand[playIndex].handIncZ = (KeyFrameHand[playIndex + 1].handPosZ - KeyFrameHand[playIndex].handPosZ) / i_max_steps;
+		KeyFrameHand[playIndex].handRotInc = (KeyFrameHand[playIndex + 1].handRot - KeyFrameHand[playIndex].handRot) / i_max_steps;
+		KeyFrameHand[playIndex].handRotZInc = (KeyFrameHand[playIndex + 1].handRotZ - KeyFrameHand[playIndex].handRotZ) / i_max_steps;
+		KeyFrameHand[playIndex].handD1RotZInc = (KeyFrameHand[playIndex + 1].handD1RotZ - KeyFrameHand[playIndex].handD1RotZ) / i_max_steps;
+		KeyFrameHand[playIndex].handD2RotZInc = (KeyFrameHand[playIndex + 1].handD2RotZ - KeyFrameHand[playIndex].handD2RotZ) / i_max_steps;
+		KeyFrameHand[playIndex].handD3RotZInc = (KeyFrameHand[playIndex + 1].handD3RotZ - KeyFrameHand[playIndex].handD3RotZ) / i_max_steps;
+		KeyFrameHand[playIndex].handD4RotZInc = (KeyFrameHand[playIndex + 1].handD4RotZ - KeyFrameHand[playIndex].handD4RotZ) / i_max_steps;
+		KeyFrameHand[playIndex].handD5RotZInc = (KeyFrameHand[playIndex + 1].handD5RotZ - KeyFrameHand[playIndex].handD5RotZ) / i_max_steps;
+	}
+	
 
 	KeyFrameRobot[playIndex].cabezaRotInc = (KeyFrameRobot[playIndex + 1].cabezaRot - KeyFrameRobot[playIndex].cabezaRot) / i_max_steps;
 	KeyFrameRobot[playIndex].brazoDRXInc = (KeyFrameRobot[playIndex + 1].brazoDRX - KeyFrameRobot[playIndex].brazoDRX) / i_max_steps;
@@ -2282,7 +2288,10 @@ void Animation() {
 			dronPosZ += KeyFrameDron[playIndex].dronIncZ;
 			dronRot += KeyFrameDron[playIndex].dronRotInc;
 
+
+			
 			handPosX += KeyFrameHand[playIndex].handIncX;
+			
 			handPosY += KeyFrameHand[playIndex].handIncY;
 			handPosZ += KeyFrameHand[playIndex].handIncZ;
 			handRot += KeyFrameHand[playIndex].handRotInc;
